@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../../models/User");
 
 //register
-const register = async (req, res) => {
+const registerUser = async (req, res) => {
   const { userName, email, password } = req.body;
   try {
     const hashPassword = await bcrypt.hash(password, 12);
@@ -41,3 +41,7 @@ const login = async (req, res) => {
 };
 
 //logout
+
+//auth middleware
+
+module.exports = { registerUser };
