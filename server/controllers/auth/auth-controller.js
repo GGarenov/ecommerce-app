@@ -6,6 +6,13 @@ const User = require("../../models/User");
 const registerUser = async (req, res) => {
   const { userName, email, password } = req.body;
   try {
+    const checkUser = await User.findOne({ email });
+    if (checkUser)
+      return res.json({
+        success: false,
+        message: "This email is already in use",
+      });
+
     const hashPassword = await bcrypt.hash(password, 12);
     const newUser = new User({
       userName,
@@ -30,7 +37,15 @@ const registerUser = async (req, res) => {
 //login
 
 const login = async (req, res) => {
+  const { email, password } = req.body;
+
   try {
+    const checkUser = await User.findOne({ email });
+    if (checkUser)
+      return res.json({
+        success: false,
+        message: "User already exist with the same email!",
+      });
   } catch (error) {
     console.log(error);
     res.status(500).json({
