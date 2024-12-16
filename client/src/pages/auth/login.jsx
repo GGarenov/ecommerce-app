@@ -4,7 +4,7 @@ import { useToast } from "@/hooks/use-toast";
 import { loginUser } from "@/store/auth-slice";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const initialState = {
   email: "",
@@ -15,6 +15,7 @@ function AuthLogin() {
   const [formData, setFormData] = useState(initialState);
   const dispatch = useDispatch();
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   function onSubmit(event) {
     event.preventDefault();
@@ -23,7 +24,9 @@ function AuthLogin() {
       if (data?.payload?.success) {
         toast({
           title: data?.payload?.message,
+          variant: "success",
         });
+        navigate("/shop/home"); // Redirect to the home page after successful login
       } else {
         toast({
           title: data?.payload?.message || "An error occurred",
@@ -40,7 +43,7 @@ function AuthLogin() {
           Login to your account
         </h1>
         <p className="mt-2">
-          Dont have an account yet?
+          Don't have an account yet?
           <Link
             className="font-medium ml-2 text-primary hover:underline"
             to="/auth/register"
