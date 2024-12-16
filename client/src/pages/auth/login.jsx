@@ -23,6 +23,10 @@ function AuthLogin() {
       if (data?.payload?.success) {
         toast({
           title: data?.payload?.message,
+        });
+      } else {
+        toast({
+          title: data?.payload?.message || "An error occurred",
           variant: "destructive",
         });
       }
