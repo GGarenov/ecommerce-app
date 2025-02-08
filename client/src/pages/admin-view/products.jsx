@@ -1,3 +1,4 @@
+import CommonForm from "@/components/common/form";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -5,12 +6,27 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-// import { Sheet } from "lucide-react";
+import { addProductFormElements } from "@/config";
 import { Fragment, useState } from "react";
+
+const initialFormData = {
+  image: null,
+  title: "",
+  description: "",
+  category: "",
+  brand: "",
+  price: "",
+  salePrice: "",
+  totalStock: "",
+};
 
 function AdminProducts() {
   const [openCreateProductsDialog, setOpenCreateProductDialog] =
     useState(false);
+
+  const [formData, setFormData] = useState(initialFormData);
+
+  function onSubmit() {}
 
   return (
     <>
@@ -31,6 +47,15 @@ function AdminProducts() {
             <SheetHeader>
               <SheetTitle>Add new product</SheetTitle>
             </SheetHeader>
+            <div className="py-6">
+              <CommonForm
+                onSubmit={onSubmit}
+                formData={formData}
+                setFormData={setFormData}
+                buttonText="Add"
+                formControls={addProductFormElements}
+              />
+            </div>
           </SheetContent>
         </Sheet>
       </Fragment>
