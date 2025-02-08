@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/sheet";
 import { addProductFormElements } from "@/config";
 import { Fragment, useState } from "react";
+import ProductImageUpload from "./image-upload";
 
 const initialFormData = {
   image: null,
@@ -25,6 +26,8 @@ function AdminProducts() {
     useState(false);
 
   const [formData, setFormData] = useState(initialFormData);
+  const [imageFile, setImageFile] = useState(null);
+  const [uploadedImageUrl, setUploadedImageUrl] = useState("");
 
   function onSubmit() {}
 
@@ -47,6 +50,12 @@ function AdminProducts() {
             <SheetHeader>
               <SheetTitle>Add new product</SheetTitle>
             </SheetHeader>
+            <ProductImageUpload
+              file={imageFile}
+              setFile={setImageFile}
+              uploadedImageUrl={uploadedImageUrl}
+              setUploadedImageUrl={setUploadedImageUrl}
+            />
             <div className="py-6">
               <CommonForm
                 onSubmit={onSubmit}
