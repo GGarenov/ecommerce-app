@@ -35,11 +35,13 @@ function ProductImageUpload({
     }
   }
 
+  console.log(imageFile);
+
   return (
     <div className="w-full mx-w-md mx-auto mt-4">
       <Label className="text-lg font-semibold mb-2 block">Upload Image</Label>
       <div
-        onDragOver={handleDragover}
+        onDragOver={handleDragOver}
         onDrop={handleDrop}
         className="border-2 border-dashed rounded-lg p-4"
       >
