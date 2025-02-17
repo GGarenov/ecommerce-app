@@ -56,7 +56,7 @@ function AdminProducts() {
               uploadedImageUrl={uploadedImageUrl}
               setUploadedImageUrl={setUploadedImageUrl}
             />
-            <div className="py-6">
+            <div className="py-8">
               <CommonForm
                 onSubmit={onSubmit}
                 formData={formData}
