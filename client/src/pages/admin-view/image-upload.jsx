@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-label";
 import { FileIcon, UploadCloudIcon, XIcon } from "lucide-react";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 function ProductImageUpload({
   imageFile,
@@ -36,6 +36,22 @@ function ProductImageUpload({
   }
 
   console.log(imageFile);
+
+  async function uploadImageToCloudinary() {
+    const data = new FormData();
+    data.append("my_file", imageFile);
+    const response = await axios.post(
+      "http://localhost:5000/api/admin/products/upload-image",
+      data
+    );
+    console.log(response, "response");
+
+    if (response) setUploadedImageUrl(response.data);
+  }
+
+  useEffect(() => {
+    if (imageFile !== null) uploadImageToCloudinary();
+  }, [imageFile]);
 
   return (
     <div className="w-full mx-w-md mx-auto mt-4">
