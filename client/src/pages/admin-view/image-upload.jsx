@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-label";
 import { FileIcon, UploadCloudIcon, XIcon } from "lucide-react";
 import { useEffect, useRef } from "react";
+import axios from "axios";
 
 function ProductImageUpload({
   imageFile,
@@ -46,7 +47,7 @@ function ProductImageUpload({
     );
     console.log(response, "response");
 
-    if (response) setUploadedImageUrl(response.data);
+    if (response.data?.success) setUploadedImageUrl(response.data.result.url);
   }
 
   useEffect(() => {
