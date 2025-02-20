@@ -23,6 +23,32 @@ export const addNewProduct = createAsyncThunk(
   }
 );
 
+export const fetchAllProducts = createAsyncThunk(
+  "/products/fetchallproducts",
+  async () => {
+    const result = await axios.get("http://localhost:5000/api/products/get");
+
+    return result?.data;
+  }
+);
+
+export const editProduct = createAsyncThunk(
+  "/products/editproduct",
+  async ({ id, formData }) => {
+    const result = await axios.put(
+      `http://localhost:5000/api/products/edit/${id}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    return result?.data;
+  }
+);
+
 const AdminProductsSlice = createSlice({
   name: "adminProducts",
   initialState,
