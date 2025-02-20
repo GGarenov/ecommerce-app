@@ -19,4 +19,59 @@ const handleImageUpload = async (req, res) => {
   }
 };
 
-module.exports = { handleImageUpload };
+// add a new product
+const addProduct = async (req, res) => {
+  try {
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Error occured",
+    });
+  }
+};
+
+// fetch all products
+const fetchAllProducts = async (req, res) => {
+  try {
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Error occured",
+    });
+  }
+};
+
+//edit a product
+
+const editProduct = async (req, res) => {
+  try {
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Error occured",
+    });
+  }
+};
+
+//delete a product
+const deleteProduct = async (req, res) => {
+  try {
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Error occured",
+    });
+  }
+};
+
+module.exports = {
+  handleImageUpload,
+  addProduct,
+  fetchAllProducts,
+  editProduct,
+  deleteProduct,
+};
