@@ -49,6 +49,17 @@ export const editProduct = createAsyncThunk(
   }
 );
 
+export const deleteProduct = createAsyncThunk(
+  "/products/deleteProduct",
+  async (id) => {
+    const result = await axios.delete(
+      `http://localhost:5000/api/products/delete/${id}`
+    );
+
+    return result?.data;
+  }
+);
+
 const AdminProductsSlice = createSlice({
   name: "adminProducts",
   initialState,
