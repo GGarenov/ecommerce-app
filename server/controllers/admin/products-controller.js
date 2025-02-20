@@ -1,4 +1,5 @@
 const { imageUploadUtil } = require("../../helpers/cloudinary");
+const Product = require("../../models/Product");
 
 const handleImageUpload = async (req, res) => {
   try {
@@ -124,6 +125,19 @@ const editProduct = async (req, res) => {
 //delete a product
 const deleteProduct = async (req, res) => {
   try {
+    const { id } = req.params;
+    const product = await Product.findByIdAndDelete(id);
+
+    if (!product)
+      return res.status(404).json({
+        success: false,
+        message: "Product not found",
+      });
+
+    res.status(200).json({
+      success: true,
+      message: "Product deleted successfully!",
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({
