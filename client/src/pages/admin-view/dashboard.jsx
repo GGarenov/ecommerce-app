@@ -1,5 +1,5 @@
 function AdminDashboard() {
-  return <div>Admin Dashboard</div>;
+  return <div>Admin Panel</div>;
 }
 
 export default AdminDashboard;
