@@ -11,6 +11,7 @@ import { Fragment, useEffect, useState } from "react";
 import ProductImageUpload from "./image-upload";
 import { useDispatch, useSelector } from "react-redux";
 import { addNewProduct, fetchAllProducts } from "@/store/admin/products-slice";
+import { useToast } from "@/hooks/use-toast";
 
 const initialFormData = {
   image: null,
@@ -33,6 +34,7 @@ function AdminProducts() {
   const [imageLoadingState, setImageLoadingState] = useState(false);
   const { productList } = useSelector((state) => state.adminProducts);
   const dispatch = useDispatch();
+  const { toast } = useToast();
 
   function onSubmit(event) {
     event.preventDefault();
@@ -42,7 +44,15 @@ function AdminProducts() {
         image: uploadedImageUrl,
       })
     ).then((data) => {
-      console.log(data);
+      if (data?.payload?.success) {
+        dispatch(fetchAllProducts());
+        setOpenCreateProductDialog(false);
+        setImageFile(null);
+        setFormData(initialFormData);
+        toast({
+          title: "Product added successfully!",
+        });
+      }
     });
   }
 
