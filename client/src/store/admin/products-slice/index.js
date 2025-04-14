@@ -72,8 +72,6 @@ const AdminProductsSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(fetchAllProducts.fulfilled, (state, action) => {
-        console.log(action.payload);
-
         state.isLoading = false;
         // Fix: Extract the data array from the response object
         state.productList = action.payload.data;

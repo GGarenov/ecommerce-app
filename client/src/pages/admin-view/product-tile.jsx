@@ -1,31 +1,41 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 
-function AdminProductTile({ product }) {
+function AdminProductTile({
+  product,
+  setFormData,
+  setOpenCreateProductDialog,
+  setCurrentEditedId,
+}) {
+  // Using optional chaining to safely access properties
+  const { title, price, salePrice, image } = product || {};
+
   return (
-    <Card className="w=full max-w-sm mx-auto">
-      <div>
-        <div className="relative">
+    <Card className="w-full h-full">
+      <div className="flex flex-col h-full">
+        <div className="relative w-full h-[300px]">
           <img
-            src={product?.image}
-            alt={product?.title}
-            className="w-full h-[300px] object-cover rounded-t-lg"
+            src={image || ""}
+            alt={title || "Product image"}
+            className="w-full h-full object-cover rounded-t-lg"
           />
         </div>
-        <CardContent>
-          <h2 className="text-xl font-bold mb-2">{product?.title}</h2>
+        <CardContent className="flex-grow">
+          <h2 className="text-xl font-bold mb-2 truncate">
+            {title || "Untitled Product"}
+          </h2>
           <div className="flex justify-between items-center mb-2">
             <span
               className={`${
-                product?.salePrice > 0 ? "line-through" : ""
-              }text-lg font-semibold text-primary`}
+                salePrice > 0 ? "line-through" : ""
+              } text-lg font-semibold text-primary`}
             >
-              ${product?.price}
+              ${price || "0.00"}
             </span>
-            <span className="text-lg font-bold">${product?.salePrice}</span>
+            <span className="text-lg font-bold">${salePrice || "0.00"}</span>
           </div>
         </CardContent>
-        <CardFooter className="flex justify-between items-center">
+        <CardFooter className="flex justify-between items-center mt-auto">
           <Button>Edit</Button>
           <Button>Delete</Button>
         </CardFooter>

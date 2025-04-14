@@ -33,6 +33,8 @@ function AdminProducts() {
   const [imageFile, setImageFile] = useState(null);
   const [uploadedImageUrl, setUploadedImageUrl] = useState("");
   const [imageLoadingState, setImageLoadingState] = useState(false);
+  const [currentEditedId, setCurrentEditedId] = useState(null);
+
   const { productList } = useSelector((state) => state.adminProducts);
   const dispatch = useDispatch();
   const { toast } = useToast();
@@ -61,11 +63,6 @@ function AdminProducts() {
     dispatch(fetchAllProducts());
   }, [dispatch]);
 
-  console.log(productList, "productList");
-  console.log(
-    "Redux state:",
-    useSelector((state) => state.adminProducts)
-  );
   return (
     <>
       <Fragment>
@@ -74,10 +71,16 @@ function AdminProducts() {
             Add new product
           </Button>
         </div>
-        <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4 auto-rows-fr">
           {productList && productList.length > 0
             ? productList.map((productItem) => (
-                <AdminProductTile product={productItem} />
+                <AdminProductTile
+                  setFormData={setFormData}
+                  setOpenCreateProductDialog={setOpenCreateProductDialog}
+                  setCurrentEditedId={setCurrentEditedId}
+                  key={productItem._id}
+                  product={productItem}
+                />
               ))
             : null}
         </div>
