@@ -12,6 +12,7 @@ import ProductImageUpload from "./image-upload";
 import { useDispatch, useSelector } from "react-redux";
 import { addNewProduct, fetchAllProducts } from "@/store/admin/products-slice";
 import { useToast } from "@/hooks/use-toast";
+import AdminProductTile from "./product-tile";
 
 const initialFormData = {
   image: null,
@@ -61,7 +62,10 @@ function AdminProducts() {
   }, [dispatch]);
 
   console.log(productList, "productList");
-
+  console.log(
+    "Redux state:",
+    useSelector((state) => state.adminProducts)
+  );
   return (
     <>
       <Fragment>
@@ -70,7 +74,13 @@ function AdminProducts() {
             Add new product
           </Button>
         </div>
-        <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4"></div>
+        <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4">
+          {productList && productList.length > 0
+            ? productList.map((productItem) => (
+                <AdminProductTile product={productItem} />
+              ))
+            : null}
+        </div>
         <Sheet
           open={openCreateProductsDialog}
           onOpenChange={() => {
