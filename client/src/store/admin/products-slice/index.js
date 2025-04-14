@@ -3,7 +3,7 @@ import axios from "axios";
 
 const initialState = {
   isLoading: false,
-  products: [],
+  productList: [], // Changed from products to productList to match what you're using in components
 };
 
 export const addNewProduct = createAsyncThunk(
@@ -75,7 +75,8 @@ const AdminProductsSlice = createSlice({
         console.log(action.payload);
 
         state.isLoading = false;
-        state.productList = action.payload;
+        // Fix: Extract the data array from the response object
+        state.productList = action.payload.data;
       })
       .addCase(fetchAllProducts.rejected, (state, action) => {
         state.isLoading = false;
