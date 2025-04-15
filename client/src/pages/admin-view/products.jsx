@@ -94,7 +94,9 @@ function AdminProducts() {
         >
           <SheetContent side="right" className="overflow-auto">
             <SheetHeader>
-              <SheetTitle>Add new product</SheetTitle>
+              <SheetTitle>
+                {currentEditedId !== null ? "Edit Product" : "Add New Product"}
+              </SheetTitle>
             </SheetHeader>
             <ProductImageUpload
               imageFile={imageFile}
@@ -110,7 +112,7 @@ function AdminProducts() {
                 onSubmit={onSubmit}
                 formData={formData}
                 setFormData={setFormData}
-                buttonText="Add"
+                buttonText={currentEditedId !== null ? "Edit" : "Add"}
                 formControls={addProductFormElements}
               />
             </div>
