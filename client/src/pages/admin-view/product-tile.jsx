@@ -6,6 +6,7 @@ function AdminProductTile({
   setFormData,
   setOpenCreateProductDialog,
   setCurrentEditedId,
+  handleDelete,
 }) {
   // Using optional chaining to safely access properties
   const { title, price, salePrice, image } = product || {};
@@ -45,7 +46,7 @@ function AdminProductTile({
           >
             Edit
           </Button>
-          <Button>Delete</Button>
+          <Button onClick={() => handleDelete(product?._id)}>Delete</Button>
         </CardFooter>
       </div>
     </Card>

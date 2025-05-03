@@ -12,6 +12,7 @@ import ProductImageUpload from "./image-upload";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addNewProduct,
+  deleteProduct,
   editProduct,
   fetchAllProducts,
 } from "@/store/admin/products-slice";
@@ -81,6 +82,14 @@ function AdminProducts() {
         });
   }
 
+  function handleDelete(getCurrentProductId) {
+    dispatch(deleteProduct(getCurrentProductId)).then((data) => {
+      if (data?.payload?.success) {
+        dispatch(fetchAllProducts());
+      }
+    });
+  }
+
   function isFormValid() {
     return Object.keys(formData)
       .map((key) => formData[key] !== "")
@@ -108,6 +117,7 @@ function AdminProducts() {
                   setCurrentEditedId={setCurrentEditedId}
                   key={productItem._id}
                   product={productItem}
+                  handleDelete={handleDelete}
                 />
               ))
             : null}
