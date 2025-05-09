@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 import { filterOptions } from "@/config";
 import { Fragment } from "react";
 import { Label } from "../ui/label";
