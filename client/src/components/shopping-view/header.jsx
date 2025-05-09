@@ -2,7 +2,7 @@ import { House, LogOut, Menu, ShoppingCart, User } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { Button } from "../ui/button";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { shoppingViewHeaderMenuItems } from "@/config";
 import {
   DropdownMenu,
@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "../ui/avatar";
+import { logoutUser } from "@/store/auth-slice";
 
 function MenuItems() {
   return (
@@ -33,6 +34,12 @@ function MenuItems() {
 function HeaderRightContent() {
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  function handleLogout() {
+    dispatch(logoutUser());
+  }
+
   return (
     <div className="flex lg:items-center lg:flex-row flex-col gap-4">
       <Button variant="outline" size="icon">
@@ -55,7 +62,7 @@ function HeaderRightContent() {
             Profile page
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={handleLogout}>
             <LogOut className="mr-2 h-4 w-4" />
             Logout
           </DropdownMenuItem>
