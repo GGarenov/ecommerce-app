@@ -1,6 +1,7 @@
 import { Badge } from "lucide-react";
 import { Card, CardContent, CardFooter } from "../ui/card";
 import { Button } from "../ui/button";
+import { brandOptionsMap, categoryOptionsMap } from "@/config";
 
 function ShoppingProductTile({ product }) {
   return (

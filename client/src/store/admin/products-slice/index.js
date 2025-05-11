@@ -3,7 +3,7 @@ import axios from "axios";
 
 const initialState = {
   isLoading: false,
-  productList: [], // Changed from products to productList to match what you're using in components
+  productList: [],
 };
 
 export const addNewProduct = createAsyncThunk(

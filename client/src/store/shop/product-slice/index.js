@@ -9,6 +9,8 @@ const initialState = {
 export const fetchAllFilteredProducts = createAsyncThunk(
   "/products/fetchallproducts",
   async () => {
+    console.log(fetchAllFilteredProducts, "fetchAllFilteredProducts");
+
     const result = await axios.get(
       "http://localhost:5000/api/shop/products/get"
     );
@@ -30,7 +32,7 @@ const shoppingProductSlice = createSlice({
         console.log(action.payload);
 
         state.isLoading = false;
-        state.productList = action.payload;
+        state.productList = action.payload.data;
       })
       .addCase(fetchAllFilteredProducts.rejected, (state, action) => {
         console.log(action.payload);
