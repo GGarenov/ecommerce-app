@@ -1,17 +1,17 @@
-import { Badge } from "lucide-react";
+import { Badge } from "../ui/badge";
 import { Card, CardContent, CardFooter } from "../ui/card";
 import { Button } from "../ui/button";
 import { brandOptionsMap, categoryOptionsMap } from "@/config";
 
 function ShoppingProductTile({ product }) {
   return (
-    <Card classname="w-full max-w-sm mx-auto">
+    <Card className="w-full max-w-sm mx-auto">
       <div>
         <div className="relative">
           <img
             src={product?.image}
             alt={product?.title}
-            className="w-dull h-[300px] object-cover rounded-t-lg"
+            className="w-full h-[300px] object-cover rounded-t-lg"
           />
           {product?.salePrice > 0 ? (
             <Badge className="absolute top-2 left-2 bg-red-500 hover:bg-red-600">
