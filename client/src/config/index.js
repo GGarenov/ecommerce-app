@@ -173,5 +173,5 @@ export const brandOptionsMap = {
   puma: "Puma",
   levi: "Levi",
   zara: "Zara",
-  "h&m": "H&M",
+  hm: "H&M",
 };
