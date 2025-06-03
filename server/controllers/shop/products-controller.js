@@ -55,7 +55,7 @@ const getFilteredProducts = async (req, res) => {
 
 const getProductDetails = async (req, res) => {
   try {
-    const {} = req.params;
+    const { id } = req.params;
     const product = await Product.findById(id);
 
     if (!product)
@@ -68,7 +68,7 @@ const getProductDetails = async (req, res) => {
       success: true,
       data: product,
     });
-  } catch (error) {
+  } catch (e) {
     console.log(error);
     res.status(500).json({
       success: false,
