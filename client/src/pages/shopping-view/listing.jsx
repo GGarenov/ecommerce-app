@@ -40,6 +40,7 @@ function ShoppingListing() {
     (state) => state.shopProducts
   );
   const { user } = useSelector((state) => state.auth);
+
   const [filters, setFilters] = useState({});
   const [sort, setSort] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -72,7 +73,7 @@ function ShoppingListing() {
   }
 
   function handleGetProductDetails(getCurrentProductId) {
-    // console.log(getCurrentProductId);
+    console.log(getCurrentProductId);
     dispatch(fetchProductDetails(getCurrentProductId));
   }
 
