@@ -8,23 +8,23 @@ const addToCart = async (req, res) => {
     if (!userId || !productId || quantity <= 0) {
       return res.status(400).json({
         success: false,
-        message: "Invalid data provided",
+        message: "Invalid data provided!",
       });
     }
 
     const product = await Product.findById(productId);
 
     if (!product) {
-      return res.status(400).json({
+      return res.status(404).json({
         success: false,
-        message: "Invalid product or no product at all",
+        message: "Product not found",
       });
     }
 
-    let cart = await Cart.findOne({ userId, items: [] });
+    let cart = await Cart.findOne({ userId });
 
     if (!cart) {
-      cart = new Cart({});
+      cart = new Cart({ userId, items: [] });
     }
 
     const findCurrentProductIndex = cart.items.findIndex(
@@ -34,7 +34,7 @@ const addToCart = async (req, res) => {
     if (findCurrentProductIndex === -1) {
       cart.items.push({ productId, quantity });
     } else {
-      cart.items[(findCurrentProductIndex.quantity += quantity)];
+      cart.items[findCurrentProductIndex].quantity += quantity;
     }
 
     await cart.save();
@@ -50,6 +50,7 @@ const addToCart = async (req, res) => {
     });
   }
 };
+
 const fetchCartItems = async (req, res) => {
   try {
     const { userId } = req.params;
