@@ -3,18 +3,25 @@ import bannerOne from "../../assets/banner-1.webp";
 import bannerTwo from "../../assets/banner-2.webp";
 import bannerThree from "../../assets/banner-3.webp";
 import {
+  Airplay,
   BabyIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
   CloudLightning,
   FootprintsIcon,
+  Heater,
+  Images,
+  Shirt,
   ShirtIcon,
+  ShoppingBasket,
+  WashingMachine,
   WatchIcon,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchAllFilteredProducts } from "@/store/shop/product-slice";
+import ShoppingProductTile from "@/components/shopping-view/product-tile";
 
 const categoriesWithIcon = [
   { id: "men", label: "Men", icon: ShirtIcon },
@@ -24,8 +31,18 @@ const categoriesWithIcon = [
   { id: "footwear", label: "Footwear", icon: FootprintsIcon },
 ];
 
+const brandsWithIcon = [
+  { id: "nike", label: "Nike", icon: Shirt },
+  { id: "adidas", label: "Adidas", icon: WashingMachine },
+  { id: "puma", label: "Puma", icon: ShoppingBasket },
+  { id: "levi", label: "Levi's", icon: Airplay },
+  { id: "zara", label: "Zara", icon: Images },
+  { id: "h&m", label: "H&M", icon: Heater },
+];
+
 function ShoppingHome() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const { productList } = useSelector((state) => state.shopProducts);
   const dispatch = useDispatch();
 
   const slides = [bannerOne, bannerTwo, bannerThree];
@@ -46,6 +63,8 @@ function ShoppingHome() {
       })
     );
   }, [dispatch]);
+
+  console.log(productList, "product list");
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -99,6 +118,43 @@ function ShoppingHome() {
                 </CardContent>
               </Card>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-12 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-8">Shop by brand</h2>
+          <div className="grid grid-cols-2 md:grid-col-3 lg:grid-cols-5 gap-4">
+            {brandsWithIcon.map((brandItem) => (
+              <Card
+                key={brandItem.id}
+                className="cursor-pointer hover:shadow-lg transition-shadow"
+              >
+                <CardContent className="flex flex-col items-center justify-center p-6">
+                  <brandItem.icon className="w-12 h-12 mb-4 text-primary" />
+                  <span className="font-bold">{brandItem.label}</span>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-12">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-8">
+            Featured Products
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {productList && productList.length > 0
+              ? productList.map((productItem) => (
+                  <ShoppingProductTile
+                    key={productItem?.id}
+                    product={productItem}
+                  />
+                ))
+              : null}
           </div>
         </div>
       </section>
