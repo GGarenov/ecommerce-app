@@ -9,32 +9,43 @@ import {
   CloudLightning,
   FootprintsIcon,
   ShirtIcon,
-  UmbrellaIcon,
   WatchIcon,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { fetchAllFilteredProducts } from "@/store/shop/product-slice";
+
+const categoriesWithIcon = [
+  { id: "men", label: "Men", icon: ShirtIcon },
+  { id: "women", label: "Women", icon: CloudLightning },
+  { id: "kids", label: "Kids", icon: BabyIcon },
+  { id: "accessories", label: "Accessories", icon: WatchIcon },
+  { id: "footwear", label: "Footwear", icon: FootprintsIcon },
+];
 
 function ShoppingHome() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const dispatch = useDispatch();
 
   const slides = [bannerOne, bannerTwo, bannerThree];
 
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prevSlide) => (prevSlide + 1) % slides.length);
-    }, 2000);
+    }, 6000);
 
     return () => clearInterval(timer);
   }, []);
 
-  const categoriesWithIcon = [
-    { id: "men", label: "Men", icon: ShirtIcon },
-    { id: "women", label: "Women", icon: CloudLightning },
-    { id: "kids", label: "Kids", icon: BabyIcon },
-    { id: "accessories", label: "Accessories", icon: WatchIcon },
-    { id: "footwear", label: "Footwear", icon: FootprintsIcon },
-  ];
+  useEffect(() => {
+    dispatch(
+      fetchAllFilteredProducts({
+        filterParams: {},
+        sortParams: "price-lowtohigh",
+      })
+    );
+  }, [dispatch]);
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -45,11 +56,11 @@ function ShoppingHome() {
             key={index}
             className={`${
               index === currentSlide ? "opacity-100" : "opacity-0"
-            }absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-1000`}
+            } absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-1000`}
           />
         ))}
         <Button
-          valiant="outline"
+          variant="outline"
           size="icon"
           onClick={() =>
             setCurrentSlide(
@@ -61,7 +72,7 @@ function ShoppingHome() {
           <ChevronLeftIcon className="w-4 h-4" />
         </Button>
         <Button
-          valiant="outline"
+          variant="outline"
           size="icon"
           onClick={() =>
             setCurrentSlide((prevSlide) => (prevSlide + 1) % slides.length)
@@ -78,7 +89,10 @@ function ShoppingHome() {
           </h2>
           <div className="grid grid-cols-2 md:grid-col-3 lg:grid-cols-5 gap-4">
             {categoriesWithIcon.map((categoryItem) => (
-              <Card className="cursor-pointer hover:shadow-lg transition-shadow">
+              <Card
+                key={categoryItem.id}
+                className="cursor-pointer hover:shadow-lg transition-shadow"
+              >
                 <CardContent className="flex flex-col items-center justify-center p-6">
                   <categoryItem.icon className="w-12 h-12 mb-4 text-primary" />
                   <span className="font-bold">{categoryItem.label}</span>
