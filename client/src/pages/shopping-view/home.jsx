@@ -22,6 +22,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllFilteredProducts } from "@/store/shop/product-slice";
 import ShoppingProductTile from "@/components/shopping-view/product-tile";
+import { useNavigate } from "react-router-dom";
 
 const categoriesWithIcon = [
   { id: "men", label: "Men", icon: ShirtIcon },
@@ -44,8 +45,18 @@ function ShoppingHome() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const { productList } = useSelector((state) => state.shopProducts);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const slides = [bannerOne, bannerTwo, bannerThree];
+
+  function handleNavigateToListingPage(getCurrentItem, section) {
+    sessionStorage.removeItem("filters");
+    const currentFilter = {
+      [section]: [getCurrentItem.id],
+    };
+    sessionStorage.setItem("filters", JSON.stringify(currentFilter));
+    navigate(`/shop/listing`);
+  }
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -109,6 +120,9 @@ function ShoppingHome() {
           <div className="grid grid-cols-2 md:grid-col-3 lg:grid-cols-5 gap-4">
             {categoriesWithIcon.map((categoryItem) => (
               <Card
+                onClick={() =>
+                  handleNavigateToListingPage(categoryItem, "category")
+                }
                 key={categoryItem.id}
                 className="cursor-pointer hover:shadow-lg transition-shadow"
               >
