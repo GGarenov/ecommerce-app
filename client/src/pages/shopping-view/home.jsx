@@ -142,6 +142,7 @@ function ShoppingHome() {
           <div className="grid grid-cols-2 md:grid-col-3 lg:grid-cols-6 gap-4">
             {brandsWithIcon.map((brandItem) => (
               <Card
+                onClick={() => handleNavigateToListingPage(brandItem, "brand")}
                 key={brandItem.id}
                 className="cursor-pointer hover:shadow-lg transition-shadow"
               >
