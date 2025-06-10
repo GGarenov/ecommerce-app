@@ -80,6 +80,9 @@ function Address() {
     ).then((data) => {
       if (data?.payload?.success) {
         dispatch(fetchAllAddress(user?.id));
+        toast({
+          title: "Address is deleted successfully!",
+        });
       }
     });
   }
