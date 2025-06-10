@@ -43,7 +43,7 @@ export const editaAddress = createAsyncThunk(
 
 export const deleteAddress = createAsyncThunk(
   "/addresses/deleteAddress",
-  async (userId, addressId) => {
+  async ({ userId, addressId }) => {
     const response = await axios.delete(
       `http://localhost:5000/api/shop/address/delete/${userId}/${addressId}`
     );
@@ -61,11 +61,11 @@ const addressSlice = createSlice({
       .addCase(addNewAddress.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(addNewAddress.fulfilled, (state, action) => {
-        (state.isLoading = false), (state.addressList = action.payload.data);
+      .addCase(addNewAddress.fulfilled, (state) => {
+        state.isLoading = false;
       })
       .addCase(addNewAddress.rejected, (state) => {
-        (state.isLoading = false), (state.addressList = []);
+        state.isLoading = false;
       })
       .addCase(fetchAllAddress.pending, (state) => {
         state.isLoading = true;
