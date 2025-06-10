@@ -10,6 +10,7 @@ import {
   fetchAllAddress,
 } from "@/store/shop/address-slice";
 import AddressCard from "./address-card";
+import { useToast } from "@/hooks/use-toast";
 
 const initialAddressFormData = {
   address: "",
@@ -25,6 +26,7 @@ function Address() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const { addressList } = useSelector((state) => state.shopAddress);
+  const { toast } = useToast();
 
   function handleManageAddress(event) {
     event.preventDefault();
@@ -51,6 +53,9 @@ function Address() {
             dispatch(fetchAllAddress(user?.id));
             setCurrentEditedId(null);
             setFormData(initialAddressFormData);
+            toast({
+              title: "Address updated successfully!",
+            });
           }
         })
       : dispatch(
@@ -62,6 +67,9 @@ function Address() {
           if (data?.payload?.success) {
             dispatch(fetchAllAddress(user?.id));
             setFormData(initialAddressFormData);
+            toast({
+              title: "Address added successfully!",
+            });
           }
         });
   }
@@ -104,6 +112,7 @@ function Address() {
         {addressList && addressList.length > 0
           ? addressList.map((singleAddressItem) => (
               <AddressCard
+                key={singleAddressItem._id}
                 addressInfo={singleAddressItem}
                 handleDeleteAddress={handleDeleteAddress}
                 handleEditAddress={handleEditAddress}
