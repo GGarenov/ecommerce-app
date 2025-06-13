@@ -9,7 +9,9 @@ import { createNewOrder } from "@/store/shop/order-slice";
 function ShoppingCheckout() {
   const { cartItems } = useSelector((state) => state.shopCart);
   const { user } = useSelector((state) => state.auth);
+  const { approvalURL } = useSelector((state) => state.shopOrder);
   const [currentSelectedAddress, setCurrentSelectedAddress] = useState(null);
+  const [isPaymentStart, setIsPaymentStart] = useState(false);
   const dispatch = useDispatch();
 
   console.log(currentSelectedAddress, "current selected address");
@@ -60,7 +62,17 @@ function ShoppingCheckout() {
 
     dispatch(createNewOrder(orderData)).then((data) => {
       console.log(data, "goshkata");
+
+      if (data?.payload?.success) {
+        setIsPaymentStart(true);
+      } else {
+        setIsPaymentStart(false);
+      }
     });
+  }
+
+  if (approvalURL) {
+    window.location.href = approvalURL;
   }
 
   return (
