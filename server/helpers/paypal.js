@@ -1,11 +1,17 @@
-const paypal = require("paypal-server-sdk");
+const { Client, Environment, LogLevel } = require("@paypal/paypal-server-sdk");
 
-paypal.configure({
-  mode: "sandbox",
-  client_id:
-    "AUH-exlwK7sQgegz-udG2Q6Zf3IJG30WN_5e9d7ICQaEx3Aeeyq3oA6BruW6MGIsVWmfg7IsIIApzzNa",
-  client_sec:
-    "EBwEEyP6kuhgbi1R7aKHcHXvdVU_V5JAJZEbq5DJUH5fuywyw6404A__YP3gDnvJegFoUeLrRocaf6du",
+// Configure PayPal client using environment variables
+const client = new Client({
+  clientCredentialsAuthCredentials: {
+    oAuthClientId: process.env.PAYPAL_CLIENT_ID,
+    oAuthClientSecret: process.env.PAYPAL_CLIENT_SECRET,
+  },
+  environment: Environment.Sandbox, // Use Environment.Production for production
+  logging: {
+    logLevel: LogLevel.Info,
+    logRequest: { logBody: true },
+    logResponse: { logHeaders: true },
+  },
 });
 
-module.exports = paypal;
+module.exports = client;
