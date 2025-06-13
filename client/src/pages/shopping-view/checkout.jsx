@@ -1,14 +1,16 @@
 import Address from "@/components/shopping-view/address";
 import img from "../../assets/account.jpg";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import UserCartItemsContent from "@/components/shopping-view/cart-items-content";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { createNewOrder } from "@/store/shop/order-slice";
 
 function ShoppingCheckout() {
   const { cartItems } = useSelector((state) => state.shopCart);
   const { user } = useSelector((state) => state.auth);
   const [currentSelectedAddress, setCurrentSelectedAddress] = useState(null);
+  const dispatch = useDispatch();
 
   console.log(currentSelectedAddress, "current selected address");
 
@@ -55,7 +57,10 @@ function ShoppingCheckout() {
       paymentId: "",
       payerId: "",
     };
-    console.log(orderData);
+
+    dispatch(createNewOrder(orderData)).then((data) => {
+      console.log(data, "goshkata");
+    });
   }
 
   return (
