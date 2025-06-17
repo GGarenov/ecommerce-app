@@ -4,6 +4,7 @@ const {
 } = require("../../helpers/paypal");
 const Order = require("../../models/Order");
 const Cart = require("../../models/Cart");
+const Product = require("../../models/Product");
 
 const createOrder = async (req, res) => {
   try {
@@ -17,6 +18,8 @@ const createOrder = async (req, res) => {
       totalAmount,
       orderDate,
       orderUpdateDate,
+      paymentId,
+      payerId,
       cartId,
     } = req.body;
 
