@@ -31,7 +31,11 @@ export const getOrderDetailsForAdmin = createAsyncThunk(
 const adminOrderSlice = createSlice({
   name: "adminOrderSlice",
   initialState,
-  reducers: {},
+  reducers: {
+    resetOrderDetails: (state) => {
+      state.orderDetails = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getAllOrders.pending, (state) => {
@@ -58,5 +62,7 @@ const adminOrderSlice = createSlice({
       });
   },
 });
+
+export const { resetOrderDetails } = adminOrderSlice.reducer;
 
 export default adminOrderSlice.reducer;
