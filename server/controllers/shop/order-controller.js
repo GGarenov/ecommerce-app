@@ -3,6 +3,7 @@ const {
   capturePayPalPayment,
 } = require("../../helpers/paypal");
 const Order = require("../../models/Order");
+const Cart = require("../../models/Cart");
 
 const createOrder = async (req, res) => {
   try {
@@ -62,36 +63,52 @@ const createOrder = async (req, res) => {
 
 const capturePayment = async (req, res) => {
   try {
-    const { orderId } = req.body; // This is the PayPal Order ID returned earlier
+    const { paymentId, payerId, orderId } = req.body;
 
-    // Step 1: Capture the PayPal payment
-    const captureResult = await capturePayPalPayment(orderId);
+    let order = await Order.findById(orderId);
 
-    // Step 2: Get capture ID
-    const captureId = captureResult.purchase_units[0].payments.captures[0].id;
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        message: "Order can not be found",
+      });
+    }
 
-    // Step 3: Update your Order model in MongoDB to mark as paid
-    await Order.findOneAndUpdate(
-      { paymentId: orderId },
-      {
-        paymentStatus: "paid",
-        payerId: captureResult.payer.payer_id,
-        orderUpdateDate: new Date(),
+    order.paymentStatus = "paid";
+    order.orderStatus = "confirmed";
+    order.paymentId = paymentId;
+    order.payerId = payerId;
+
+    for (let item of order.cartItems) {
+      let product = await Product.findById(item.productId);
+
+      if (!product) {
+        return res.status(404).json({
+          success: false,
+          message: `Not enough stock for this product ${product.title}`,
+        });
       }
-    );
+
+      product.totalStock -= item.quantity;
+
+      await product.save();
+    }
+
+    const getCartId = order.cartId;
+    await Cart.findByIdAndDelete(getCartId);
+
+    await order.save();
 
     res.status(200).json({
       success: true,
-      message: "Payment captured successfully",
-      captureId,
-      paymentDetails: captureResult,
+      message: "Order confirmed",
+      data: order,
     });
-  } catch (error) {
-    console.error("PayPal Capture Error:", error);
+  } catch (e) {
+    console.log(e);
     res.status(500).json({
       success: false,
-      message: "Error capturing PayPal payment",
-      error: error.message,
+      message: "Some error occured!",
     });
   }
 };
