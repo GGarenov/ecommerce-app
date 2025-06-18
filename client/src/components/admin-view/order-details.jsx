@@ -10,6 +10,7 @@ import {
   getOrderDetailsForAdmin,
   updateOrderStatus,
 } from "@/store/admin/order-slice";
+import { useToast } from "@/hooks/use-toast";
 
 const initialFormData = {
   status: "",
@@ -19,6 +20,7 @@ function AdminOrderDetailsView({ orderDetails }) {
   const [formData, setFormData] = useState(initialFormData);
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const { toast } = useToast();
 
   function handleUpdateStatus(event) {
     event.preventDefault();
@@ -33,6 +35,9 @@ function AdminOrderDetailsView({ orderDetails }) {
         dispatch(getOrderDetailsForAdmin(orderDetails?._id));
         dispatch(getAllOrders());
         setFormData(initialFormData);
+        toast({
+          title: data?.payload?.message,
+        });
       }
     });
   }
