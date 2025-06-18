@@ -4,7 +4,12 @@ import { DialogContent } from "../ui/dialog";
 import { Label } from "../ui/label";
 import { Separator } from "../ui/separator";
 import { Badge } from "../ui/badge";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getAllOrders,
+  getOrderDetailsForAdmin,
+  updateOrderStatus,
+} from "@/store/admin/order-slice";
 
 const initialFormData = {
   status: "",
@@ -13,9 +18,23 @@ const initialFormData = {
 function AdminOrderDetailsView({ orderDetails }) {
   const [formData, setFormData] = useState(initialFormData);
   const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
   function handleUpdateStatus(event) {
     event.preventDefault();
+    console.log(formData);
+    const { status } = formData;
+
+    dispatch(
+      updateOrderStatus({ id: orderDetails?._id, orderStatus: status })
+    ).then((data) => {
+      console.log(data, "123");
+      if (data?.payload?.success) {
+        dispatch(getOrderDetailsForAdmin(orderDetails?._id));
+        dispatch(getAllOrders());
+        setFormData(initialFormData);
+      }
+    });
   }
 
   return (
