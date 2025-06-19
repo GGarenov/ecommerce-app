@@ -9,7 +9,7 @@ const initialState = {
 export const addReview = createAsyncThunk("/order/addReview", async (data) => {
   const response = await axios.post(
     `http://localhost:5000/api/shop/review/add`,
-    { data }
+    data
   );
 
   return response.data;
