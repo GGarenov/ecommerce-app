@@ -24,13 +24,12 @@ function AdminOrderDetailsView({ orderDetails }) {
 
   function handleUpdateStatus(event) {
     event.preventDefault();
-    console.log(formData);
+
     const { status } = formData;
 
     dispatch(
       updateOrderStatus({ id: orderDetails?._id, orderStatus: status })
     ).then((data) => {
-      console.log(data, "123");
       if (data?.payload?.success) {
         dispatch(getOrderDetailsForAdmin(orderDetails?._id));
         dispatch(getAllOrders());

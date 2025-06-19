@@ -17,8 +17,6 @@ function ProductImageUpload({
 }) {
   const inputRef = useRef(null);
 
-  console.log(isEditMode);
-
   function handleImageFileChange(event) {
     const selectedFile = event.target.files?.[0];
 
@@ -42,8 +40,6 @@ function ProductImageUpload({
     }
   }
 
-  console.log(imageFile);
-
   async function uploadImageToCloudinary() {
     setImageLoadingState(true);
     const data = new FormData();
@@ -52,7 +48,6 @@ function ProductImageUpload({
       "http://localhost:5000/api/admin/products/upload-image",
       data
     );
-    console.log(response, "response");
 
     if (response.data?.success) {
       setUploadedImageUrl(response.data.result.url);

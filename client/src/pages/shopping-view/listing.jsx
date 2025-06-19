@@ -79,12 +79,10 @@ function ShoppingListing() {
   }
 
   function handleGetProductDetails(getCurrentProductId) {
-    console.log(getCurrentProductId);
     dispatch(fetchProductDetails(getCurrentProductId));
   }
 
   function handleAddtoCart(getCurrentProductId, getTotalStock) {
-    console.log(cartItems);
     let getCartItems = cartItems.items || [];
 
     if (getCartItems.length) {
@@ -142,8 +140,6 @@ function ShoppingListing() {
   useEffect(() => {
     if (productDetails !== null) setOpenDetailsDialog(true);
   }, [productDetails]);
-
-  console.log(productList, "e tva e produkt listata");
 
   return (
     <div className="grid gird-cols-1 md:grid-cols-[300px_1fr] gap-6 p-4 md:p-6">

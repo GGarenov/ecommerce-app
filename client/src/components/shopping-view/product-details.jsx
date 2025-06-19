@@ -34,7 +34,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
         }
       }
     }
-    console.log(getCurrentProductId);
+
     dispatch(
       addToCart({
         userId: user?.id,

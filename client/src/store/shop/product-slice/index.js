@@ -10,8 +10,6 @@ const initialState = {
 export const fetchAllFilteredProducts = createAsyncThunk(
   "/products/fetchallproducts",
   async ({ filterParams, sortParams }) => {
-    console.log(fetchAllFilteredProducts, "fetchAllFilteredProducts");
-
     const query = new URLSearchParams({
       ...filterParams,
       sortBy: sortParams,
@@ -50,14 +48,10 @@ const shoppingProductSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(fetchAllFilteredProducts.fulfilled, (state, action) => {
-        console.log(action.payload);
-
         state.isLoading = false;
         state.productList = action.payload.data;
       })
       .addCase(fetchAllFilteredProducts.rejected, (state, action) => {
-        console.log(action.payload);
-
         state.isLoading = false;
         state.productList = [];
       })
@@ -69,8 +63,6 @@ const shoppingProductSlice = createSlice({
         state.productDetails = action.payload.data;
       })
       .addCase(fetchProductDetails.rejected, (state, action) => {
-        console.log(action.payload);
-
         state.isLoading = false;
         state.productList = null;
       });
