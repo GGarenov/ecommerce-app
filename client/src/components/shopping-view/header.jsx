@@ -65,7 +65,7 @@ function MenuItems() {
 }
 
 function HeaderRightContent() {
-  const { user } = useSelector((state) => state.auth);
+  const { user, isAuthenticated } = useSelector((state) => state.auth);
   const { cartItems } = useSelector((state) => state.shopCart);
   const [openCartSheet, setOpenCartSheet] = useState(false);
   const dispatch = useDispatch();
@@ -76,11 +76,22 @@ function HeaderRightContent() {
   }
 
   useEffect(() => {
-    dispatch(fetchCartItems(user?.id));
-  }, [dispatch]);
+    if (user?.id) {
+      dispatch(fetchCartItems(user.id));
+    }
+  }, [dispatch, user?.id]);
+
+  if (!isAuthenticated) {
+    return (
+      <div className="flex items-center gap-4">
+        <Button onClick={() => navigate("/auth/login")}>Log In</Button>
+      </div>
+    );
+  }
 
   return (
     <div className="flex lg:items-center lg:flex-row flex-col gap-4">
+      {/* Cart Icon */}
       <Sheet open={openCartSheet} onOpenChange={() => setOpenCartSheet(false)}>
         <Button
           onClick={() => setOpenCartSheet(true)}
@@ -100,6 +111,7 @@ function HeaderRightContent() {
         />
       </Sheet>
 
+      {/* Profile Dropdown */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Avatar className="bg-black">
