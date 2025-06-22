@@ -74,6 +74,14 @@ function ShoppingHome() {
   }
 
   function handleAddtoCart(getCurrentProductId) {
+    if (!user || !user.id) {
+      toast({
+        title: "Please log in to add items to your cart",
+        variant: "destructive",
+      });
+      return;
+    }
+
     dispatch(
       addToCart({
         userId: user?.id,
@@ -199,8 +207,8 @@ function ShoppingHome() {
             {productList && productList.length > 0
               ? productList.map((productItem) => (
                   <ShoppingProductTile
+                    key={productItem?._id}
                     handleGetProductDetails={handleGetProductDetails}
-                    key={productItem?.id}
                     product={productItem}
                     handleAddtoCart={handleAddtoCart}
                   />

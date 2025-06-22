@@ -83,6 +83,14 @@ function ShoppingListing() {
   }
 
   function handleAddtoCart(getCurrentProductId, getTotalStock) {
+    if (!user || !user.id) {
+      toast({
+        title: "Please log in to add items to your cart",
+        variant: "destructive",
+      });
+      return;
+    }
+
     let getCartItems = cartItems.items || [];
 
     if (getCartItems.length) {
@@ -181,7 +189,7 @@ function ShoppingListing() {
           {productList && productList.length > 0
             ? productList.map((productItem) => (
                 <ShoppingProductTile
-                  key={productItem?.id}
+                  key={productItem?._id}
                   handleGetProductDetails={handleGetProductDetails}
                   product={productItem}
                   handleAddtoCart={handleAddtoCart}
