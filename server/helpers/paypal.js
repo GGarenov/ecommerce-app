@@ -1,14 +1,12 @@
 const axios = require("axios");
 
-const PAYPAL_CLIENT_ID =
-  process.env.PAYPAL_CLIENT_ID ||
-  "AUH-exlwK7sQgegz-udG2Q6Zf3IJG30WN_5e9d7ICQaEx3Aeeyq3oA6BruW6MGIsVWmfg7IsIIApzzNa";
-const PAYPAL_CLIENT_SECRET =
-  process.env.PAYPAL_CLIENT_SECRET ||
-  "EBwEEyP6kuhgbi1R7aKHcHXvdVU_V5JAJZEbq5DJUH5fuywyw6404A__YP3gDnvJegFoUeLrRocaf6du";
-const PAYPAL_API_BASE = "https://api-m.sandbox.paypal.com"; // Use https://api-m.paypal.com for production
+const PAYPAL_CLIENT_ID = process.env.PAYPAL_CLIENT_ID;
+const PAYPAL_CLIENT_SECRET = process.env.PAYPAL_CLIENT_SECRET;
+const PAYPAL_API_BASE = "https://api-m.sandbox.paypal.com";
 
-// Function to get access token
+const FRONTEND_URL =
+  process.env.FRONTEND_DEPLOYED_URL || "http://localhost:5173";
+
 const getAccessToken = async () => {
   try {
     const auth = Buffer.from(
@@ -36,7 +34,6 @@ const getAccessToken = async () => {
   }
 };
 
-// Function to create PayPal order
 const createPayPalOrder = async (totalAmount) => {
   try {
     const accessToken = await getAccessToken();
@@ -52,8 +49,8 @@ const createPayPalOrder = async (totalAmount) => {
         },
       ],
       application_context: {
-        return_url: "http://localhost:5173/shop/paypal-return",
-        cancel_url: "http://localhost:5173/shop/paypal-cancel",
+        return_url: `${FRONTEND_URL}/shop/paypal-return`,
+        cancel_url: `${FRONTEND_URL}/shop/paypal-cancel`,
       },
     };
 
@@ -78,7 +75,6 @@ const createPayPalOrder = async (totalAmount) => {
   }
 };
 
-// Function to capture PayPal payment
 const capturePayPalPayment = async (orderId) => {
   try {
     const accessToken = await getAccessToken();

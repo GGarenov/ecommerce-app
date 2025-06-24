@@ -6,6 +6,18 @@ import { useEffect, useRef } from "react";
 import axios from "axios";
 import { Skeleton } from "@/components/ui/skeleton";
 
+const BACKEND_URL = import.meta.env.VITE_APP_BACKEND_URL;
+
+if (!BACKEND_URL && import.meta.env.DEV) {
+  console.warn(
+    "VITE_APP_BACKEND_URL is not defined! Falling back to http://localhost:5000 for development."
+  );
+} else if (!BACKEND_URL && import.meta.env.PROD) {
+  console.error(
+    "VITE_APP_BACKEND_URL is not defined in production! Image upload may fail."
+  );
+}
+
 function ProductImageUpload({
   imageFile,
   setImageFile,
@@ -45,18 +57,23 @@ function ProductImageUpload({
     const data = new FormData();
     data.append("my_file", imageFile);
     const response = await axios.post(
-      "http://localhost:5000/api/admin/products/upload-image",
+      `${BACKEND_URL}/api/admin/products/upload-image`,
       data
     );
 
     if (response.data?.success) {
       setUploadedImageUrl(response.data.result.url);
       setImageLoadingState(false);
+    } else {
+      console.error("Image upload failed:", response.data);
+      setImageLoadingState(false);
     }
   }
 
   useEffect(() => {
-    if (imageFile !== null) uploadImageToCloudinary();
+    if (imageFile !== null && BACKEND_URL) {
+      uploadImageToCloudinary();
+    }
   }, [imageFile]);
 
   return (

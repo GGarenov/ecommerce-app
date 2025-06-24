@@ -1,6 +1,19 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const BACKEND_URL = import.meta.env.VITE_APP_BACKEND_URL;
+
+if (!BACKEND_URL && import.meta.env.DEV) {
+  console.warn(
+    "VITE_APP_BACKEND_URL is not defined! API calls might fall back to localhost for development."
+  );
+} else if (!BACKEND_URL && import.meta.env.PROD) {
+  console.error(
+    "VITE_APP_BACKEND_URL is not defined in production! Order functionality may fail."
+  );
+  // Handle this error more robustly in a production app
+}
+
 const initialState = {
   approvalURL: null,
   isLoading: false,
@@ -13,7 +26,8 @@ export const createNewOrder = createAsyncThunk(
   "/order/createNewOrder",
   async (orderData) => {
     const response = await axios.post(
-      "http://localhost:5000/api/shop/order/create",
+      // Use the BACKEND_URL variable here
+      `${BACKEND_URL}/api/shop/order/create`,
       orderData
     );
 
@@ -24,14 +38,11 @@ export const createNewOrder = createAsyncThunk(
 export const capturePayment = createAsyncThunk(
   "/order/capturePayment",
   async ({ paymentId, payerId, orderId }) => {
-    const response = await axios.post(
-      "http://localhost:5000/api/shop/order/capture",
-      {
-        paymentId,
-        payerId,
-        orderId,
-      }
-    );
+    const response = await axios.post(`${BACKEND_URL}/api/shop/order/capture`, {
+      paymentId,
+      payerId,
+      orderId,
+    });
 
     return response.data;
   }
@@ -41,7 +52,7 @@ export const getAllOrdersByUser = createAsyncThunk(
   "/order/getAllOrdersByUser",
   async (userId) => {
     const response = await axios.get(
-      `http://localhost:5000/api/shop/order/list/${userId}`
+      `${BACKEND_URL}/api/shop/order/list/${userId}`
     );
 
     return response.data;
@@ -52,7 +63,7 @@ export const getOrderDetails = createAsyncThunk(
   "/order/getOrderDetails",
   async (id) => {
     const response = await axios.get(
-      `http://localhost:5000/api/shop/order/details/${id}`
+      `${BACKEND_URL}/api/shop/order/details/${id}`
     );
 
     return response.data;

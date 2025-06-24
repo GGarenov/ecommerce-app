@@ -1,6 +1,17 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-
 import axios from "axios";
+
+const BACKEND_URL = import.meta.env.VITE_APP_BACKEND_URL;
+
+if (!BACKEND_URL && import.meta.env.DEV) {
+  console.warn(
+    "VITE_APP_BACKEND_URL is not defined! API calls might fall back to localhost for development."
+  );
+} else if (!BACKEND_URL && import.meta.env.PROD) {
+  console.error(
+    "VITE_APP_BACKEND_URL is not defined in production! Authentication may fail."
+  );
+}
 
 const initialState = {
   isAuthenticated: false,
@@ -12,7 +23,7 @@ export const registerUser = createAsyncThunk(
   "/auth/register",
   async (formDate) => {
     const response = await axios.post(
-      "http://localhost:5000/api/auth/register",
+      `${BACKEND_URL}/api/auth/register`,
       formDate,
       {
         withCredentials: true,
@@ -24,22 +35,17 @@ export const registerUser = createAsyncThunk(
 );
 
 export const loginUser = createAsyncThunk("/auth/login", async (formDate) => {
-  const response = await axios.post(
-    "http://localhost:5000/api/auth/login",
-    formDate,
-    {
-      withCredentials: true,
-    }
-  );
+  const response = await axios.post(`${BACKEND_URL}/api/auth/login`, formDate, {
+    withCredentials: true,
+  });
 
   return response.data;
 });
 
 export const logoutUser = createAsyncThunk("/auth/logout", async () => {
   const response = await axios.post(
-    "http://localhost:5000/api/auth/logout",
+    `${BACKEND_URL}/api/auth/logout`,
     {},
-
     {
       withCredentials: true,
     }
@@ -49,16 +55,12 @@ export const logoutUser = createAsyncThunk("/auth/logout", async () => {
 });
 
 export const checkAuth = createAsyncThunk("/auth/checkauth", async () => {
-  const response = await axios.get(
-    "http://localhost:5000/api/auth/check-auth",
-    {
-      withCredentials: true,
-      headers: {
-        "Cache-Control":
-          "no-store, no-cache, must-revalidate, proxy-revalidate",
-      },
-    }
-  );
+  const response = await axios.get(`${BACKEND_URL}/api/auth/check-auth`, {
+    withCredentials: true,
+    headers: {
+      "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+    },
+  });
 
   return response.data;
 });
