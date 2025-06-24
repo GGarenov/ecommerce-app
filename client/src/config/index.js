@@ -54,15 +54,35 @@ export const addProductFormElements = [
     placeholder: "Enter product description",
   },
   {
-    label: "Category",
-    name: "category",
+    label: "Gender",
+    name: "gender",
     componentType: "select",
     options: [
       { id: "men", label: "Men" },
       { id: "women", label: "Women" },
-      { id: "kids", label: "Kids" },
-      { id: "accessories", label: "Accessories" },
-      { id: "footwear", label: "Footwear" },
+    ],
+  },
+  {
+    label: "Shape",
+    name: "shape",
+    componentType: "select",
+    options: [
+      { id: "round", label: "Round" },
+      { id: "square", label: "Square" },
+      { id: "aviator", label: "Aviator" },
+      { id: "cateye", label: "Cat Eye" },
+      { id: "rectangle", label: "Rectangle" },
+    ],
+  },
+  {
+    label: "Lens Type",
+    name: "lens",
+    componentType: "select",
+    options: [
+      { id: "polarized", label: "Polarized" },
+      { id: "gradient", label: "Gradient" },
+      { id: "uv", label: "UV Protection" },
+      { id: "bluelight", label: "Blue Light" },
     ],
   },
   {
@@ -70,12 +90,21 @@ export const addProductFormElements = [
     name: "brand",
     componentType: "select",
     options: [
-      { id: "nike", label: "Nike" },
-      { id: "adidas", label: "Adidas" },
-      { id: "puma", label: "Puma" },
-      { id: "levi", label: "Levi's" },
-      { id: "zara", label: "Zara" },
-      { id: "h&m", label: "H&M" },
+      { id: "rayban", label: "Ray-Ban" },
+      { id: "oakley", label: "Oakley" },
+      { id: "gucci", label: "Gucci" },
+      { id: "prada", label: "Prada" },
+      { id: "polaroid", label: "Polaroid" },
+    ],
+  },
+  {
+    label: "Material",
+    name: "material",
+    componentType: "select",
+    options: [
+      { id: "metal", label: "Metal" },
+      { id: "plastic", label: "Plastic" },
+      { id: "acetate", label: "Acetate" },
     ],
   },
   {
@@ -102,63 +131,39 @@ export const addProductFormElements = [
 ];
 
 export const shoppingViewHeaderMenuItems = [
-  {
-    id: "home",
-    label: "Home",
-    path: "/shop/home",
-  },
-  {
-    id: "products",
-    label: "Products",
-    path: "/shop/listing",
-  },
-  {
-    id: "men",
-    label: "Men",
-    path: "/shop/listing",
-  },
-  {
-    id: "women",
-    label: "Women",
-    path: "/shop/listing",
-  },
-  {
-    id: "kids",
-    label: "Kids",
-    path: "/shop/listing",
-  },
-  {
-    id: "accessories",
-    label: "Accessories",
-    path: "/shop/listing",
-  },
-  {
-    id: "footwear",
-    label: "Footwear",
-    path: "/shop/listing",
-  },
-  {
-    id: "search",
-    label: "Seach",
-    path: "/shop/search",
-  },
+  { id: "home", label: "Home", path: "/shop/home" },
+  { id: "men", label: "Men", path: "/shop/listing?gender=men" },
+  { id: "women", label: "Women", path: "/shop/listing?gender=women" },
+  { id: "brands", label: "Brands", path: "/shop/brands" },
+  { id: "products", label: "All Products", path: "/shop/listing" },
+  { id: "search", label: "Search", path: "/shop/search" },
 ];
 
 export const filterOptions = {
-  category: [
+  shape: [
+    { id: "round", label: "Round" },
+    { id: "square", label: "Square" },
+    { id: "aviator", label: "Aviator" },
+    { id: "cateye", label: "Cat Eye" },
+  ],
+  lens: [
+    { id: "polarized", label: "Polarized" },
+    { id: "uv400", label: "UV400" },
+  ],
+  gender: [
     { id: "men", label: "Men" },
     { id: "women", label: "Women" },
-    { id: "kids", label: "Kids" },
-    { id: "accessories", label: "Accessories" },
-    { id: "footwear", label: "Footwear" },
   ],
   brand: [
-    { id: "nike", label: "Nike" },
-    { id: "adidas", label: "Adidas" },
-    { id: "puma", label: "Puma" },
-    { id: "levi", label: "Levi's" },
-    { id: "zara", label: "Zara" },
-    { id: "h&m", label: "H&M" },
+    { id: "rayban", label: "Ray-Ban" },
+    { id: "carrera", label: "Carrera" },
+    { id: "boss", label: "Boss" },
+    { id: "armani", label: "Armani Exchange" },
+    { id: "prada", label: "Prada" },
+  ],
+  material: [
+    { id: "metal", label: "Metal" },
+    { id: "plastic", label: "Plastic" },
   ],
 };
 
@@ -178,12 +183,11 @@ export const categoryOptionsMap = {
 };
 
 export const brandOptionsMap = {
-  nike: "Nike",
-  adidas: "Adidas",
-  puma: "Puma",
-  levi: "Levi",
-  zara: "Zara",
-  hm: "H&M",
+  rayban: "Ray-Ban",
+  carrera: "Carrera",
+  boss: "Boss",
+  armani: "Armani Exchange",
+  prada: "Prada",
 };
 
 export const addressFormControls = [

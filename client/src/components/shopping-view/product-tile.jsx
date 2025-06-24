@@ -1,7 +1,8 @@
 import { Badge } from "../ui/badge";
 import { Card, CardContent, CardFooter } from "../ui/card";
 import { Button } from "../ui/button";
-import { brandOptionsMap, categoryOptionsMap } from "@/config";
+import { brandOptionsMap, categoryOptionsMap, filterOptions } from "@/config";
+import PropTypes from "prop-types";
 
 function ShoppingProductTile({
   product,
@@ -41,6 +42,21 @@ function ShoppingProductTile({
               {brandOptionsMap[product?.brand]}
             </span>
           </div>
+          {/* New sunglasses fields: Only shape and lens */}
+          <div className="flex flex-wrap gap-2 mb-2">
+            {product?.shape && (
+              <Badge variant="outline">
+                {filterOptions.shape.find((opt) => opt.id === product.shape)
+                  ?.label || product.shape}
+              </Badge>
+            )}
+            {product?.lens && (
+              <Badge variant="outline">
+                {filterOptions.lens.find((opt) => opt.id === product.lens)
+                  ?.label || product.lens}
+              </Badge>
+            )}
+          </div>
           <div className="flex justify-between items-center mb-2">
             <span
               className={`${
@@ -77,5 +93,26 @@ function ShoppingProductTile({
     </Card>
   );
 }
+
+ShoppingProductTile.propTypes = {
+  product: PropTypes.shape({
+    _id: PropTypes.string,
+    image: PropTypes.string,
+    title: PropTypes.string,
+    description: PropTypes.string,
+    category: PropTypes.string,
+    brand: PropTypes.string,
+    price: PropTypes.number,
+    salePrice: PropTypes.number,
+    totalStock: PropTypes.number,
+    gender: PropTypes.string,
+    shape: PropTypes.string,
+    lens: PropTypes.string,
+    material: PropTypes.string,
+    color: PropTypes.string,
+  }).isRequired,
+  handleGetProductDetails: PropTypes.func.isRequired,
+  handleAddtoCart: PropTypes.func.isRequired,
+};
 
 export default ShoppingProductTile;
