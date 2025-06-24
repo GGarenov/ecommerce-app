@@ -71,7 +71,6 @@ export const addProductFormElements = [
       { id: "square", label: "Square" },
       { id: "aviator", label: "Aviator" },
       { id: "cateye", label: "Cat Eye" },
-      { id: "rectangle", label: "Rectangle" },
     ],
   },
   {
@@ -80,9 +79,7 @@ export const addProductFormElements = [
     componentType: "select",
     options: [
       { id: "polarized", label: "Polarized" },
-      { id: "gradient", label: "Gradient" },
-      { id: "uv", label: "UV Protection" },
-      { id: "bluelight", label: "Blue Light" },
+      { id: "uv400", label: "UV400" },
     ],
   },
   {
@@ -91,10 +88,10 @@ export const addProductFormElements = [
     componentType: "select",
     options: [
       { id: "rayban", label: "Ray-Ban" },
-      { id: "oakley", label: "Oakley" },
-      { id: "gucci", label: "Gucci" },
+      { id: "carrera", label: "Carrera" },
+      { id: "boss", label: "Boss" },
+      { id: "armani", label: "Armani Exchange" },
       { id: "prada", label: "Prada" },
-      { id: "polaroid", label: "Polaroid" },
     ],
   },
   {
@@ -104,7 +101,6 @@ export const addProductFormElements = [
     options: [
       { id: "metal", label: "Metal" },
       { id: "plastic", label: "Plastic" },
-      { id: "acetate", label: "Acetate" },
     ],
   },
   {
