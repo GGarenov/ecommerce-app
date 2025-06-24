@@ -1,214 +1,116 @@
-🧾 Technical Specification Document: Refactor for Sunglasses-Focused E-commerce
-🧭 Objective
-Refactor the existing fashion-based category and navigation system to fit a sunglasses-only eCommerce store, with the following structure:
+Technical Specification Document: UI & Config Adjustments for Sunglasses E-commerce
+Overview
+This document outlines the required changes to the front-end navigation, filters, brand management, and homepage layout of the sunglasses-focused e-commerce app. The goal is to streamline user navigation, update brand information, and adjust filters for a more focused shopping experience.
 
-✅ Target Header Menu
-css
-Копиране
-Редактиране
-[Home] [Men] [Women] [Brands] [Search]
-✅ Dropdowns under Men/Women:
-Shape: Round, Square, Aviator, Cat Eye, Rectangle
+1. Header Navigation Changes
+   Current:
+   Header menu includes: Home, Men (dropdown), Women (dropdown), Brands, Search
 
-Lens: Polarized, Gradient, UV Protection, Blue Light
+Men and Women have dropdown filters on hover
 
-Price Range
+New Requirements:
+Header menu items: Home | Men | Women | Brands | All Products | Search
 
-Collections: Summer 2025, Sport, Luxury, Everyday
+Clicking Men redirects to /shop/listing?gender=men (no dropdown)
 
-✅ Filters:
-Brand
+Clicking Women redirects to /shop/listing?gender=women (no dropdown)
 
-Color
+Clicking All Products redirects to /shop/listing
 
-Material
+Clicking Brands redirects to a new dedicated Brands page
 
-🔧 Phase 1: Configuration Updates
-📁 client/src/config/index.js
-✅ Update: shoppingViewHeaderMenuItems
-Replace the current categories (men, women, kids, accessories, footwear, products) with:
+Implementation Details:
+Update client/src/components/navbar.jsx to:
+
+Remove dropdown menus under Men and Women.
+
+Use navigate() or <Link> with corresponding URLs.
+
+Add All Products menu item linking to /shop/listing.
+
+2. Brands Page
+   New Page:
+   Path: /shop/brands
+
+File: client/src/pages/shopping-view/brand-page.jsx
+
+Displays large clickable images for each brand.
+
+Each brand image links to a filtered listing page for that brand (e.g., /shop/listing?brand=rayban).
+
+Design Guidelines:
+Grid or card layout with prominent brand logos or images.
+
+Clean, visually appealing style consistent with the rest of the app.
+
+Responsive design for mobile and desktop.
+
+3. Brand Configuration Update
+   File:
+   client/src/config/index.js
+
+Changes:
+Replace existing brands with:
 
 js
 Копиране
 Редактиране
-export const shoppingViewHeaderMenuItems = [
-{ id: "home", label: "Home", path: "/shop/home" },
-{ id: "men", label: "Men", path: "/shop/listing?gender=men" },
-{ id: "women", label: "Women", path: "/shop/listing?gender=women" },
-{ id: "brands", label: "Brands", path: "/shop/brands" },
-{ id: "search", label: "Search", path: "/shop/search" },
-];
-✅ Replace: filterOptions.category
-js
-Копиране
-Редактиране
-export const filterOptions = {
-shape: [
-{ id: "round", label: "Round" },
-{ id: "square", label: "Square" },
-{ id: "aviator", label: "Aviator" },
-{ id: "cateye", label: "Cat Eye" },
-{ id: "rectangle", label: "Rectangle" },
-],
-lens: [
-{ id: "polarized", label: "Polarized" },
-{ id: "gradient", label: "Gradient" },
-{ id: "uv", label: "UV Protection" },
-{ id: "bluelight", label: "Blue Light" },
-],
-gender: [
-{ id: "men", label: "Men" },
-{ id: "women", label: "Women" },
-],
 brand: [
 { id: "rayban", label: "Ray-Ban" },
-{ id: "oakley", label: "Oakley" },
-{ id: "gucci", label: "Gucci" },
+{ id: "carrera", label: "Carrera" },
+{ id: "boss", label: "Boss" },
+{ id: "armani", label: "Armani Exchange" },
 { id: "prada", label: "Prada" },
-{ id: "polaroid", label: "Polaroid" },
-],
-color: [
-{ id: "black", label: "Black" },
-{ id: "brown", label: "Brown" },
-{ id: "blue", label: "Blue" },
-{ id: "silver", label: "Silver" },
-],
-material: [
-{ id: "metal", label: "Metal" },
-{ id: "plastic", label: "Plastic" },
-{ id: "acetate", label: "Acetate" },
-],
-};
-✅ Update: addProductFormElements category/brand section
-js
-Копиране
-Редактиране
-{
-label: "Gender",
-name: "gender",
-componentType: "select",
-options: [
-{ id: "men", label: "Men" },
-{ id: "women", label: "Women" },
-],
-},
-{
-label: "Shape",
-name: "shape",
-componentType: "select",
-options: [
-{ id: "round", label: "Round" },
-{ id: "square", label: "Square" },
-{ id: "aviator", label: "Aviator" },
-{ id: "cateye", label: "Cat Eye" },
-{ id: "rectangle", label: "Rectangle" },
-],
-},
-{
-label: "Lens Type",
-name: "lens",
-componentType: "select",
-options: [
-{ id: "polarized", label: "Polarized" },
-{ id: "gradient", label: "Gradient" },
-{ id: "uv", label: "UV Protection" },
-{ id: "bluelight", label: "Blue Light" },
-],
-},
-{
-label: "Brand",
-name: "brand",
-componentType: "select",
-options: [
-{ id: "rayban", label: "Ray-Ban" },
-{ id: "oakley", label: "Oakley" },
-{ id: "gucci", label: "Gucci" },
-{ id: "prada", label: "Prada" },
-{ id: "polaroid", label: "Polaroid" },
-],
-},
-{
-label: "Material",
-name: "material",
-componentType: "select",
-options: [
-{ id: "metal", label: "Metal" },
-{ id: "plastic", label: "Plastic" },
-{ id: "acetate", label: "Acetate" },
-],
-},
-🗂️ Phase 2: Backend Adjustments
-📁 server/models/productModel.js
-Update the product schema:
+]
+Update any related maps or constants to reflect these new brands.
 
-js
-Копиране
-Редактиране
-gender: { type: String, enum: ["men", "women"] },
-shape: { type: String },
-lens: { type: String },
-material: { type: String },
-color: { type: String },
-📁 server/controllers/productController.js
-Update product creation and update logic to support new fields.
+4. Filter Options Update
+   In client/src/config/index.js update filterOptions:
+   Shape filter:
 
-Adjust filtering logic in product listing to include gender, shape, lens, material.
+Round
 
-🧑‍💻 Phase 3: UI Integration
-📁 client/src/pages/listing.jsx
-Update filters in sidebar or top bar to match new structure.
+Square
 
-Remove any mention of footwear, kids, accessories.
+Aviator
 
-📁 client/src/components/navbar.jsx
-Replace nav items with: Home, Men, Women, Brands, Search.
+Cat Eye
 
-Implement dropdown logic under “Men” and “Women” for:
+Lens filter:
 
-Shape
+Polarized
 
-Lens
+UV400
 
-Collections (optional)
+Remove Color filter entirely
 
-📁 client/src/components/product-tile.jsx
-Ensure new fields (shape, lens, brand, material) are displayed and/or available for filtering.
+Material filter:
 
-🧪 Phase 4: Testing
-✅ Manual QA
-Test creating products with new fields
+Metal
 
-Check that filters work on listing page
+Plastic
 
-Verify the new navigation works correctly
+5. Homepage (client/src/shopping-view/home.jsx)
+   Changes:
+   Rename "Shop by Category" section to "Shop by Gender"
 
-Check search functionality compatibility
+Show exactly two images:
 
-Review admin panel UI for form alignment
+One representing Men’s sunglasses
 
-🧹 Optional Cleanup
-Remove unused kids, footwear, accessories logic or entries from:
+One representing Women’s sunglasses
 
-Redux slices
+Clicking these images redirects to /shop/listing?gender=men and /shop/listing?gender=women, respectively.
 
-Seed data (if any)
+"Shop by Brand" section:
 
-Product listing logic
+Display the five brands defined above, with clickable images or logos linking to filtered brand listing pages (/shop/listing?brand=brand-id).
 
-🧩 Optional: Collections
-Collections like “Summer 2025”, “Luxury” can be added either as:
-
-A collection field in the product model
-
-Or as a separate tag-like mechanism with filtering
-
-✅ Final Deliverables
-Updated category model and filters
-
-Navigation updated to Men/Women-based structure
-
-Admin product form updated
-
-Filter and listing logic updated
-
-Fully working sunglasses-specific product taxonomy
+Summary of URLs for Navigation
+Menu Item URL
+Home /shop/home
+Men /shop/listing?gender=men
+Women /shop/listing?gender=women
+Brands /shop/brands
+All Products /shop/listing
+Search /shop/search

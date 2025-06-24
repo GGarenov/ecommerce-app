@@ -1,7 +1,9 @@
 import { Button } from "@/components/ui/button";
-import bannerOne from "../../assets/banner-1.webp";
-import bannerTwo from "../../assets/banner-2.webp";
-import bannerThree from "../../assets/banner-3.webp";
+import bannerOne from "../../assets/banner-4.png";
+import bannerTwo from "../../assets/banner-5.png";
+import bannerThree from "../../assets/banner-6.png";
+import womenSunglasses from "../../assets/women_sunglasses.jpg";
+import manSunglasses from "../../assets/man_sunglasses.jpg";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { addToCart, fetchCartItems } from "@/store/shop/cart-slice";
 import { useToast } from "@/hooks/use-toast";
 import ProductDetailsDialog from "@/components/shopping-view/product-details";
-import { brandOptionsMap, filterOptions } from "@/config/index";
+// import { brandOptionsMap, filterOptions } from "@/config/index";
 import raybanImg from "../../assets/rb.png";
 import carreraImg from "../../assets/carrera.png";
 import bossImg from "../../assets/boss.png";
@@ -38,13 +40,13 @@ function ShoppingHome() {
     {
       id: "men",
       label: "Men's Sunglasses",
-      img: bannerOne,
+      img: manSunglasses,
       url: "/shop/listing?gender=men",
     },
     {
       id: "women",
       label: "Women's Sunglasses",
-      img: bannerTwo,
+      img: womenSunglasses,
       url: "/shop/listing?gender=women",
     },
   ];
@@ -65,14 +67,14 @@ function ShoppingHome() {
     { id: "prada", label: "Prada" },
   ];
 
-  function handleNavigateToListingPage(getCurrentItem, section) {
-    sessionStorage.removeItem("filters");
-    const currentFilter = {
-      [section]: [getCurrentItem.id],
-    };
-    sessionStorage.setItem("filters", JSON.stringify(currentFilter));
-    navigate(`/shop/listing`);
-  }
+  // function handleNavigateToListingPage(getCurrentItem, section) {
+  //   sessionStorage.removeItem("filters");
+  //   const currentFilter = {
+  //     [section]: [getCurrentItem.id],
+  //   };
+  //   sessionStorage.setItem("filters", JSON.stringify(currentFilter));
+  //   navigate(`/shop/listing`);
+  // }
 
   function handleGetProductDetails(getCurrentProductId) {
     dispatch(fetchProductDetails(getCurrentProductId));
@@ -126,14 +128,14 @@ function ShoppingHome() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <div className="relative w-full h-[600px] overflow-hidden">
+      <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] overflow-hidden hidden sm:block">
         {slides.map((slide, index) => (
           <img
             src={slide}
             key={index}
             className={`${
               index === currentSlide ? "opacity-100" : "opacity-0"
-            } absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-1000`}
+            } absolute top-0 left-0 w-full h-full object-cover object-center transition-opacity duration-1000`}
           />
         ))}
         <Button
@@ -175,7 +177,7 @@ function ShoppingHome() {
                 <img
                   src={gender.img}
                   alt={gender.label}
-                  className="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 z-0"
+                  className="absolute inset-0 w-full h-full object-cover md:object-contain object-center group-hover:scale-105 transition-transform duration-500 z-0"
                 />
                 <div className="relative z-10 w-full bg-gradient-to-t from-black/70 to-transparent p-8 flex flex-col items-center justify-end h-full">
                   <span className="text-white text-3xl md:text-4xl font-extrabold drop-shadow-lg mb-2">
@@ -191,26 +193,26 @@ function ShoppingHome() {
         </div>
       </section>
 
-      <section className="py-12 bg-gray-50">
-        <div className="container mx-auto px-0 max-w-full">
-          <h2 className="text-3xl font-bold text-center mb-8">Shop by Brand</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-0 w-full">
-            {brands.map((brand, idx) => (
+      <section className="py-16 bg-gradient-to-b from-gray-50 via-white to-gray-100">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-12">
+            Shop by Brand
+          </h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
+            {brands.map((brand) => (
               <div
                 key={brand.id}
-                className={`relative cursor-pointer flex flex-col items-center justify-end h-64 md:h-80 w-full bg-white overflow-hidden group border-r border-b last:border-r-0 md:last:border-b-0 transition-transform duration-300 hover:scale-[1.01] ${
-                  idx > 3 ? "hidden" : ""
-                } sm:flex md:flex lg:flex`}
                 onClick={() => navigate(`/shop/listing?brand=${brand.id}`)}
+                className="cursor-pointer group bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col items-center p-6 hover:scale-105 transform transition-transform"
               >
-                <div className="w-24 h-24 flex items-center justify-center rounded-full mb-4 mt-8 overflow-hidden bg-gray-100 group-hover:bg-gray-200 transition-all">
+                <div className="w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center mb-4 overflow-hidden">
                   <img
                     src={brandImages[brand.id]}
                     alt={brand.label}
-                    className="h-20 object-contain"
+                    className="h-16 object-contain transition-transform duration-300 group-hover:scale-110"
                   />
                 </div>
-                <span className="font-bold text-center text-lg mb-8">
+                <span className="text-lg font-semibold text-center text-gray-800 group-hover:text-black transition-colors">
                   {brand.label}
                 </span>
               </div>

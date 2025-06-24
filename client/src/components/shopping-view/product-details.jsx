@@ -87,13 +87,37 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
         reviewValue: rating,
       })
     ).then((data) => {
-      if (data.payload.success) {
+      if (data.payload && data.payload.success) {
         setRating(0);
         setReviewMessage("");
         dispatch(getReviews(productDetails?._id));
         toast({
           title: "Review added successfully!",
         });
+      } else {
+        // Check for error message in payload or error
+        const errorMsg = data?.payload?.message || data?.error?.message || "";
+        // Check for 403 or purchase requirement
+        if (
+          errorMsg.includes("403") ||
+          errorMsg.includes("kupish") ||
+          errorMsg.includes("Purvo trqbva da si kupish")
+        ) {
+          toast({
+            title: "You need to purchase in order to give review.",
+            variant: "destructive",
+          });
+        } else if (errorMsg) {
+          toast({
+            title: errorMsg,
+            variant: "destructive",
+          });
+        } else {
+          toast({
+            title: "Failed to add review.",
+            variant: "destructive",
+          });
+        }
       }
     });
   }
