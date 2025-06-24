@@ -61,8 +61,6 @@ function ShoppingListing() {
   const [showFilters, setShowFilters] = useState(false);
   const { toast } = useToast();
 
-  const categorySearchParam = searchParams.get("category");
-
   function handleSort(value) {
     setSort(value);
   }
@@ -137,12 +135,18 @@ function ShoppingListing() {
     });
   }
 
+  // Set initial sort and filters once on mount or when searchParams change
   useEffect(() => {
-    setSort("lowtohigh");
-    // Parse filters from URL params for initial state
+    setSort("price-lowtohigh");
+    // Parse filters from URL
     const urlFilters = parseFiltersFromSearchParams(searchParams);
-    setFilters(urlFilters);
-    sessionStorage.setItem("filters", JSON.stringify(urlFilters));
+    // If no filters in URL, fallback to sessionStorage
+    if (Object.keys(urlFilters).length > 0) {
+      setFilters(urlFilters);
+      sessionStorage.setItem("filters", JSON.stringify(urlFilters));
+    } else {
+      setFilters(JSON.parse(sessionStorage.getItem("filters")) || {});
+    }
   }, [searchParams]);
 
   useEffect(() => {
