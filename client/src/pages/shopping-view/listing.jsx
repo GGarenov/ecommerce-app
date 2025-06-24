@@ -35,6 +35,16 @@ function createSearchParamsHelper(filterParams) {
   return queryParams.join("&");
 }
 
+function parseFiltersFromSearchParams(searchParams) {
+  const filters = {};
+  for (const [key, value] of searchParams.entries()) {
+    if (value) {
+      filters[key] = value.split(",");
+    }
+  }
+  return filters;
+}
+
 function ShoppingListing() {
   const dispatch = useDispatch();
   const { productList, productDetails } = useSelector(
@@ -48,6 +58,7 @@ function ShoppingListing() {
   const [sort, setSort] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
   const { toast } = useToast();
 
   const categorySearchParam = searchParams.get("category");
@@ -128,8 +139,11 @@ function ShoppingListing() {
 
   useEffect(() => {
     setSort("lowtohigh");
-    setFilters(JSON.parse(sessionStorage.getItem("filters")) || {});
-  }, [categorySearchParam]);
+    // Parse filters from URL params for initial state
+    const urlFilters = parseFiltersFromSearchParams(searchParams);
+    setFilters(urlFilters);
+    sessionStorage.setItem("filters", JSON.stringify(urlFilters));
+  }, [searchParams]);
 
   useEffect(() => {
     if (filters && Object.keys(filters).length > 0) {
@@ -150,8 +164,37 @@ function ShoppingListing() {
   }, [productDetails]);
 
   return (
-    <div className="grid gird-cols-1 md:grid-cols-[300px_1fr] gap-6 p-4 md:p-6">
-      <ProductFilter filters={filters} handleFilter={handleFilter} />
+    <div className="flex flex-col md:grid md:gird-cols-1 md:grid-cols-[300px_1fr] gap-6 p-4 md:p-6">
+      {/* Mobile Filters Button */}
+      <div className="md:hidden mb-4 flex justify-end">
+        <Button variant="outline" onClick={() => setShowFilters(true)}>
+          Filters
+        </Button>
+      </div>
+      {/* Filters Drawer for Mobile */}
+      {showFilters && (
+        <div
+          className="fixed inset-0 z-50 bg-black/40 flex items-end md:hidden"
+          onClick={() => setShowFilters(false)}
+        >
+          <div
+            className="bg-white w-full rounded-t-2xl p-6 max-h-[80vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-lg font-extrabold">Filters</h2>
+              <Button variant="ghost" onClick={() => setShowFilters(false)}>
+                Close
+              </Button>
+            </div>
+            <ProductFilter filters={filters} handleFilter={handleFilter} />
+          </div>
+        </div>
+      )}
+      {/* Desktop Filters */}
+      <div className="hidden md:block">
+        <ProductFilter filters={filters} handleFilter={handleFilter} />
+      </div>
       <div className="bg-background w-full rounded-lg shadow-sm">
         <div className="p-4 border-b flex items-center justify-between">
           <h2 className="text-lg font-extrabold">All Products</h2>
