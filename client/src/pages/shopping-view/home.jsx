@@ -2,22 +2,7 @@ import { Button } from "@/components/ui/button";
 import bannerOne from "../../assets/banner-1.webp";
 import bannerTwo from "../../assets/banner-2.webp";
 import bannerThree from "../../assets/banner-3.webp";
-import {
-  Airplay,
-  BabyIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  CloudLightning,
-  FootprintsIcon,
-  Heater,
-  Images,
-  Shirt,
-  ShirtIcon,
-  ShoppingBasket,
-  WashingMachine,
-  WatchIcon,
-} from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -29,23 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { addToCart, fetchCartItems } from "@/store/shop/cart-slice";
 import { useToast } from "@/hooks/use-toast";
 import ProductDetailsDialog from "@/components/shopping-view/product-details";
-
-const categoriesWithIcon = [
-  { id: "men", label: "Men", icon: ShirtIcon },
-  { id: "women", label: "Women", icon: CloudLightning },
-  { id: "kids", label: "Kids", icon: BabyIcon },
-  { id: "accessories", label: "Accessories", icon: WatchIcon },
-  { id: "footwear", label: "Footwear", icon: FootprintsIcon },
-];
-
-const brandsWithIcon = [
-  { id: "nike", label: "Nike", icon: Shirt },
-  { id: "adidas", label: "Adidas", icon: WashingMachine },
-  { id: "puma", label: "Puma", icon: ShoppingBasket },
-  { id: "levi", label: "Levi's", icon: Airplay },
-  { id: "zara", label: "Zara", icon: Images },
-  { id: "h&m", label: "H&M", icon: Heater },
-];
+import { brandOptionsMap, filterOptions } from "@/config/index";
 
 function ShoppingHome() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -59,6 +28,29 @@ function ShoppingHome() {
   const { toast } = useToast();
 
   const slides = [bannerOne, bannerTwo, bannerThree];
+
+  const genderImages = [
+    {
+      id: "men",
+      label: "Men's Sunglasses",
+      img: bannerOne,
+      url: "/shop/listing?gender=men",
+    },
+    {
+      id: "women",
+      label: "Women's Sunglasses",
+      img: bannerTwo,
+      url: "/shop/listing?gender=women",
+    },
+  ];
+
+  const brands = [
+    { id: "rayban", label: "Ray-Ban" },
+    { id: "carrera", label: "Carrera" },
+    { id: "boss", label: "Boss" },
+    { id: "armani", label: "Armani Exchange" },
+    { id: "prada", label: "Prada" },
+  ];
 
   function handleNavigateToListingPage(getCurrentItem, section) {
     sessionStorage.removeItem("filters");
@@ -155,44 +147,57 @@ function ShoppingHome() {
         </Button>
       </div>
       <section className="py-12 bg-gray-50">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-0 max-w-full">
           <h2 className="text-3xl font-bold text-center mb-8">
-            Shop by category
+            Shop by Gender
           </h2>
-          <div className="grid grid-cols-2 md:grid-col-3 lg:grid-cols-5 gap-4">
-            {categoriesWithIcon.map((categoryItem) => (
-              <Card
-                onClick={() =>
-                  handleNavigateToListingPage(categoryItem, "category")
-                }
-                key={categoryItem.id}
-                className="cursor-pointer hover:shadow-lg transition-shadow"
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-0 w-full">
+            {genderImages.map((gender) => (
+              <div
+                key={gender.id}
+                className="relative cursor-pointer group h-96 md:h-[500px] w-full overflow-hidden flex items-end justify-center transition-transform duration-300 hover:scale-[1.01]"
+                onClick={() => navigate(gender.url)}
+                style={{ minHeight: "350px" }}
               >
-                <CardContent className="flex flex-col items-center justify-center p-6">
-                  <categoryItem.icon className="w-12 h-12 mb-4 text-primary" />
-                  <span className="font-bold">{categoryItem.label}</span>
-                </CardContent>
-              </Card>
+                <img
+                  src={gender.img}
+                  alt={gender.label}
+                  className="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 z-0"
+                />
+                <div className="relative z-10 w-full bg-gradient-to-t from-black/70 to-transparent p-8 flex flex-col items-center justify-end h-full">
+                  <span className="text-white text-3xl md:text-4xl font-extrabold drop-shadow-lg mb-2">
+                    {gender.label}
+                  </span>
+                  <span className="text-white text-lg font-medium opacity-80">
+                    Shop Now
+                  </span>
+                </div>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       <section className="py-12 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-8">Shop by brand</h2>
-          <div className="grid grid-cols-2 md:grid-col-3 lg:grid-cols-6 gap-4">
-            {brandsWithIcon.map((brandItem) => (
-              <Card
-                onClick={() => handleNavigateToListingPage(brandItem, "brand")}
-                key={brandItem.id}
-                className="cursor-pointer hover:shadow-lg transition-shadow"
+        <div className="container mx-auto px-0 max-w-full">
+          <h2 className="text-3xl font-bold text-center mb-8">Shop by Brand</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-0 w-full">
+            {brands.map((brand, idx) => (
+              <div
+                key={brand.id}
+                className={`relative cursor-pointer flex flex-col items-center justify-end h-64 md:h-80 w-full bg-white overflow-hidden group border-r border-b last:border-r-0 md:last:border-b-0 transition-transform duration-300 hover:scale-[1.01] ${
+                  idx > 3 ? "hidden" : ""
+                } sm:flex md:flex lg:flex`}
+                onClick={() => navigate(`/shop/listing?brand=${brand.id}`)}
               >
-                <CardContent className="flex flex-col items-center justify-center p-6">
-                  <brandItem.icon className="w-12 h-12 mb-4 text-primary" />
-                  <span className="font-bold">{brandItem.label}</span>
-                </CardContent>
-              </Card>
+                {/* Placeholder for brand logo/image */}
+                <div className="w-24 h-24 bg-gray-200 flex items-center justify-center rounded-full mb-4 mt-8 text-3xl font-bold text-gray-700 group-hover:bg-gray-300 transition-all">
+                  {brand.label[0]}
+                </div>
+                <span className="font-bold text-center text-lg mb-8">
+                  {brand.label}
+                </span>
+              </div>
             ))}
           </div>
         </div>
