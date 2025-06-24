@@ -37,6 +37,14 @@ function SearchProducts() {
   }, [keyword]);
 
   function handleAddtoCart(getCurrentProductId, getTotalStock) {
+    if (!user || !user.id) {
+      toast({
+        title: "Please log in to add items to your cart",
+        variant: "destructive",
+      });
+      return;
+    }
+
     let getCartItems = cartItems.items || [];
 
     if (getCartItems.length) {
