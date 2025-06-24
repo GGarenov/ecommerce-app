@@ -34,7 +34,20 @@ function ShoppingHome() {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const slides = [bannerOne, bannerTwo, bannerThree];
+  const slides = [
+    {
+      image: bannerOne,
+      url: "/shop/listing?brand=rayban",
+    },
+    {
+      image: bannerTwo,
+      url: "/shop/listing",
+    },
+    {
+      image: bannerThree,
+      url: "/shop/listing?gender=men",
+    },
+  ];
 
   const genderImages = [
     {
@@ -129,15 +142,16 @@ function ShoppingHome() {
   return (
     <div className="flex flex-col min-h-screen">
       <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] overflow-hidden hidden sm:block">
-        {slides.map((slide, index) => (
-          <img
-            src={slide}
-            key={index}
-            className={`${
-              index === currentSlide ? "opacity-100" : "opacity-0"
-            } absolute top-0 left-0 w-full h-full object-cover object-center transition-opacity duration-1000`}
-          />
-        ))}
+        <div
+          onClick={() => navigate(slides[currentSlide].url)}
+          className="cursor-pointer absolute top-0 left-0 w-full h-full transition-opacity duration-1000 opacity-100"
+          style={{
+            backgroundImage: `url(${slides[currentSlide].image})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+          aria-label={`Banner ${currentSlide + 1}`}
+        />
         <Button
           variant="outline"
           size="icon"
