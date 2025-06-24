@@ -32,6 +32,11 @@ const addProduct = async (req, res) => {
       price,
       salePrice,
       totalStock,
+      gender,
+      shape,
+      lens,
+      material,
+      color,
     } = req.body;
     const newlyCreatedProduct = new Product({
       image,
@@ -42,6 +47,11 @@ const addProduct = async (req, res) => {
       price,
       salePrice,
       totalStock,
+      gender,
+      shape,
+      lens,
+      material,
+      color,
     });
 
     await newlyCreatedProduct.save();
@@ -61,7 +71,14 @@ const addProduct = async (req, res) => {
 // fetch all products
 const fetchAllProducts = async (req, res) => {
   try {
-    const listOfProducts = await Product.find({});
+    // Build filter object from query params
+    const filter = {};
+    const { gender, shape, lens, material } = req.query;
+    if (gender) filter.gender = gender;
+    if (shape) filter.shape = shape;
+    if (lens) filter.lens = lens;
+    if (material) filter.material = material;
+    const listOfProducts = await Product.find(filter);
     res.status(200).json({
       success: true,
       data: listOfProducts,
@@ -89,6 +106,11 @@ const editProduct = async (req, res) => {
       price,
       salePrice,
       totalStock,
+      gender,
+      shape,
+      lens,
+      material,
+      color,
     } = req.body;
 
     let findProduct = await Product.findById(id);
@@ -107,6 +129,11 @@ const editProduct = async (req, res) => {
       salePrice === "" ? 0 : salePrice || findProduct.salePrice;
     findProduct.totalStock = totalStock || findProduct.totalStock;
     findProduct.image = image || findProduct.image;
+    findProduct.gender = gender || findProduct.gender;
+    findProduct.shape = shape || findProduct.shape;
+    findProduct.lens = lens || findProduct.lens;
+    findProduct.material = material || findProduct.material;
+    findProduct.color = color || findProduct.color;
 
     await findProduct.save();
 

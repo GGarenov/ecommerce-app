@@ -10,6 +10,14 @@ const ProductSchema = new mongoose.Schema(
     price: Number,
     salePrice: Number,
     totalStock: Number,
+    gender: {
+      type: String,
+      enum: ["men", "women"],
+    },
+    shape: String,
+    lens: String,
+    material: String,
+    color: String,
   },
   { timestamps: true }
 );
