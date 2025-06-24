@@ -26,7 +26,13 @@ function AuthLogin() {
           title: data?.payload?.message,
           variant: "success",
         });
-        navigate("/shop/home"); // Redirect to the home page after successful login
+        const role = data?.payload?.user?.role;
+
+        if (role === "admin") {
+          navigate("/admin/dashboard");
+        } else {
+          navigate("/shop/home");
+        }
       } else {
         toast({
           title: data?.payload?.message || "An error occurred",
