@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { brandOptionsMap } from "@/config";
 
 function AdminProductTile({
   product,
@@ -9,7 +10,7 @@ function AdminProductTile({
   handleDelete,
 }) {
   // Using optional chaining to safely access properties
-  const { title, price, salePrice, image } = product || {};
+  const { title, price, salePrice, image, brand } = product || {};
 
   return (
     <Card className="w-full h-full">
@@ -34,6 +35,10 @@ function AdminProductTile({
               ${price || "0.00"}
             </span>
             <span className="text-lg font-bold">${salePrice || "0.00"}</span>
+          </div>
+          <div className="text-sm text-gray-600 mt-2">
+            <span className="font-semibold">Brand: </span>
+            {brandOptionsMap[brand] || brand || "-"}
           </div>
         </CardContent>
         <CardFooter className="flex justify-between items-center mt-auto">
