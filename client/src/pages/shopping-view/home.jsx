@@ -15,6 +15,11 @@ import { addToCart, fetchCartItems } from "@/store/shop/cart-slice";
 import { useToast } from "@/hooks/use-toast";
 import ProductDetailsDialog from "@/components/shopping-view/product-details";
 import { brandOptionsMap, filterOptions } from "@/config/index";
+import raybanImg from "../../assets/rb.png";
+import carreraImg from "../../assets/carrera.png";
+import bossImg from "../../assets/boss.png";
+import armaniImg from "../../assets/armani.png";
+import pradaImg from "../../assets/prada.png";
 
 function ShoppingHome() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -43,6 +48,14 @@ function ShoppingHome() {
       url: "/shop/listing?gender=women",
     },
   ];
+
+  const brandImages = {
+    rayban: raybanImg,
+    carrera: carreraImg,
+    boss: bossImg,
+    armani: armaniImg,
+    prada: pradaImg,
+  };
 
   const brands = [
     { id: "rayban", label: "Ray-Ban" },
@@ -190,9 +203,12 @@ function ShoppingHome() {
                 } sm:flex md:flex lg:flex`}
                 onClick={() => navigate(`/shop/listing?brand=${brand.id}`)}
               >
-                {/* Placeholder for brand logo/image */}
-                <div className="w-24 h-24 bg-gray-200 flex items-center justify-center rounded-full mb-4 mt-8 text-3xl font-bold text-gray-700 group-hover:bg-gray-300 transition-all">
-                  {brand.label[0]}
+                <div className="w-24 h-24 flex items-center justify-center rounded-full mb-4 mt-8 overflow-hidden bg-gray-100 group-hover:bg-gray-200 transition-all">
+                  <img
+                    src={brandImages[brand.id]}
+                    alt={brand.label}
+                    className="h-20 object-contain"
+                  />
                 </div>
                 <span className="font-bold text-center text-lg mb-8">
                   {brand.label}

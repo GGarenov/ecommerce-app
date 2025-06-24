@@ -1,21 +1,20 @@
 import { Link } from "react-router-dom";
+import raybanImg from "../../assets/rb.png";
+import carrera from "../../assets/carrera.png";
+import boss from "../../assets/boss.png";
+import armani from "../../assets/armani.png";
+import prada from "../../assets/prada.png";
+import { filterOptions } from "@/config/index";
 
-// Example brand images (replace with actual image paths or URLs)
 const brandImages = {
-  rayban: "/assets/brands/rayban.png",
-  oakley: "/assets/brands/oakley.png",
-  gucci: "/assets/brands/gucci.png",
-  prada: "/assets/brands/prada.png",
-  polaroid: "/assets/brands/polaroid.png",
+  rayban: raybanImg,
+  carrera: carrera,
+  boss: boss,
+  armani: armani,
+  prada: prada,
 };
 
-const brands = [
-  { id: "rayban", label: "Ray-Ban" },
-  { id: "oakley", label: "Oakley" },
-  { id: "gucci", label: "Gucci" },
-  { id: "prada", label: "Prada" },
-  { id: "polaroid", label: "Polaroid" },
-];
+const brands = filterOptions.brand;
 
 const BrandPage = () => {
   return (
