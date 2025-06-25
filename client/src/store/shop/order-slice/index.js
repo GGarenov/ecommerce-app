@@ -11,7 +11,6 @@ if (!BACKEND_URL && import.meta.env.DEV) {
   console.error(
     "VITE_APP_BACKEND_URL is not defined in production! Order functionality may fail."
   );
-  // Handle this error more robustly in a production app
 }
 
 const initialState = {
@@ -26,7 +25,6 @@ export const createNewOrder = createAsyncThunk(
   "/order/createNewOrder",
   async (orderData) => {
     const response = await axios.post(
-      // Use the BACKEND_URL variable here
       `${BACKEND_URL}/api/shop/order/create`,
       orderData
     );

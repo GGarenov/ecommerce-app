@@ -9,7 +9,6 @@ function AdminProductTile({
   setCurrentEditedId,
   handleDelete,
 }) {
-  // Using optional chaining to safely access properties
   const { title, price, salePrice, image, brand } = product || {};
 
   return (

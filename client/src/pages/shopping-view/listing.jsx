@@ -53,7 +53,7 @@ function ShoppingListing() {
   const { cartItems } = useSelector((state) => state.shopCart);
   const { user } = useSelector((state) => state.auth);
   const [filters, setFilters] = useState({});
-  const [pendingFilters, setPendingFilters] = useState({}); // for mobile
+  const [pendingFilters, setPendingFilters] = useState({});
   const [sort, setSort] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
@@ -64,7 +64,6 @@ function ShoppingListing() {
     setSort(value);
   }
 
-  // For desktop
   function handleFilter(getSectionId, getCurrentOption) {
     let cpyFilters = { ...filters };
     const indexOfCurrentSection = Object.keys(cpyFilters).indexOf(getSectionId);
@@ -84,7 +83,6 @@ function ShoppingListing() {
     sessionStorage.setItem("filters", JSON.stringify(cpyFilters));
   }
 
-  // For mobile: update pendingFilters only
   function handleMobileFilter(getSectionId, getCurrentOption) {
     let cpyFilters = { ...pendingFilters };
     const indexOfCurrentSection = Object.keys(cpyFilters).indexOf(getSectionId);
@@ -151,15 +149,14 @@ function ShoppingListing() {
     });
   }
 
-  // Set initial sort and filters once on mount or when searchParams change
   useEffect(() => {
     setSort("price-lowtohigh");
-    // Parse filters from URL
+
     const urlFilters = parseFiltersFromSearchParams(searchParams);
-    // If no filters in URL, fallback to sessionStorage
+
     if (Object.keys(urlFilters).length > 0) {
       setFilters(urlFilters);
-      setPendingFilters(urlFilters); // sync mobile state
+      setPendingFilters(urlFilters);
       sessionStorage.setItem("filters", JSON.stringify(urlFilters));
     } else {
       const stored = JSON.parse(sessionStorage.getItem("filters")) || {};
@@ -188,13 +185,12 @@ function ShoppingListing() {
 
   return (
     <div className="flex flex-col md:grid md:gird-cols-1 md:grid-cols-[300px_1fr] gap-6 p-4 md:p-6">
-      {/* Mobile Filters Button */}
       <div className="md:hidden mb-4 flex justify-end">
         <Button variant="outline" onClick={() => setShowFilters(true)}>
           Filters
         </Button>
       </div>
-      {/* Filters Drawer for Mobile */}
+
       {showFilters && (
         <div
           className="fixed inset-0 z-50 bg-black/40 flex items-end md:hidden"
@@ -230,7 +226,7 @@ function ShoppingListing() {
           </div>
         </div>
       )}
-      {/* Desktop Filters */}
+
       <div className="hidden md:block">
         <ProductFilter filters={filters} handleFilter={handleFilter} />
       </div>

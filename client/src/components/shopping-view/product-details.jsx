@@ -1,4 +1,3 @@
-import { StarIcon } from "lucide-react";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogTitle } from "../ui/dialog";
@@ -95,9 +94,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
           title: "Review added successfully!",
         });
       } else {
-        // Check for error message in payload or error
         const errorMsg = data?.payload?.message || data?.error?.message || "";
-        // Check for 403 or purchase requirement
         if (
           errorMsg.includes("403") ||
           errorMsg.includes("kupish") ||

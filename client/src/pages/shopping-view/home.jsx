@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { addToCart, fetchCartItems } from "@/store/shop/cart-slice";
 import { useToast } from "@/hooks/use-toast";
 import ProductDetailsDialog from "@/components/shopping-view/product-details";
-// import { brandOptionsMap, filterOptions } from "@/config/index";
+
 import raybanImg from "../../assets/rb.png";
 import carreraImg from "../../assets/carrera.png";
 import bossImg from "../../assets/boss.png";

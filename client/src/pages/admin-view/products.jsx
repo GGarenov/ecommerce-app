@@ -18,7 +18,6 @@ import {
 } from "@/store/admin/products-slice";
 import { useToast } from "@/hooks/use-toast";
 import AdminProductTile from "./product-tile";
-// import { data } from "autoprefixer";
 
 const initialFormData = {
   image: null,
@@ -150,7 +149,6 @@ function AdminProducts() {
                 setFormData={setFormData}
                 buttonText={currentEditedId !== null ? "Edit" : "Add"}
                 formControls={addProductFormElements}
-                // isButtonDisabled={!isFormValid()}
               />
             </div>
           </SheetContent>
