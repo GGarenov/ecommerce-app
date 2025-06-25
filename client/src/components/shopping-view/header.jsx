@@ -19,7 +19,7 @@ import { useEffect, useState } from "react";
 import { fetchCartItems } from "@/store/shop/cart-slice";
 import { Label } from "../ui/label";
 
-function MenuItems() {
+function MenuItems({ setOpen }) {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -41,6 +41,8 @@ function MenuItems() {
           state: { category: getCurrentMenuItem.id },
         })
       : navigate(getCurrentMenuItem.path);
+
+    if (setOpen) setOpen(false);
   }
 
   return (
@@ -85,7 +87,6 @@ function HeaderRightContent() {
 
   return (
     <div className="flex lg:items-center lg:flex-row flex-col gap-4">
-      {/* Cart Icon */}
       <Sheet open={openCartSheet} onOpenChange={() => setOpenCartSheet(false)}>
         <Button
           onClick={() => setOpenCartSheet(true)}
@@ -105,7 +106,6 @@ function HeaderRightContent() {
         />
       </Sheet>
 
-      {/* Profile Dropdown */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Avatar className="bg-black">
@@ -133,7 +133,7 @@ function HeaderRightContent() {
 }
 
 function ShoppingHeader() {
-  // const { isAuthenticated } = useSelector((state) => state.auth);
+  const [openMenuSheet, setOpenMenuSheet] = useState(false);
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background">
@@ -142,7 +142,7 @@ function ShoppingHeader() {
           <House />
           <span className="font-bold">Ecommerce</span>
         </Link>
-        <Sheet>
+        <Sheet open={openMenuSheet} onOpenChange={setOpenMenuSheet}>
           <SheetTrigger asChild>
             <Button variant="outline" size="icon" className="lg:hidden">
               <Menu className="h-6 w-6" />
@@ -150,7 +150,7 @@ function ShoppingHeader() {
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="w-full max-w-xs">
-            <MenuItems />
+            <MenuItems setOpen={setOpenMenuSheet} />
             <HeaderRightContent />
           </SheetContent>
         </Sheet>
