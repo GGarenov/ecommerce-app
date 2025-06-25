@@ -1,7 +1,7 @@
 import { StarIcon } from "lucide-react";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { Button } from "../ui/button";
-import { Dialog, DialogContent } from "../ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "../ui/dialog";
 import { Separator } from "../ui/separator";
 import { Input } from "../ui/input";
 import { useDispatch, useSelector } from "react-redux";
@@ -150,9 +150,11 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
         </div>
         <div className="flex flex-col h-full">
           <div>
-            <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold break-words">
-              {productDetails?.title}
-            </h1>
+            <DialogTitle asChild>
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold break-words">
+                {productDetails?.title}
+              </h1>
+            </DialogTitle>
             <p className="text-muted-foreground text-base sm:text-lg md:text-2xl mb-3 md:mb-5 mt-2 md:mt-4 break-words">
               {productDetails?.description}
             </p>
