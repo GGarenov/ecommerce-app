@@ -50,11 +50,10 @@ function ShoppingListing() {
   const { productList, productDetails } = useSelector(
     (state) => state.shopProducts
   );
-
   const { cartItems } = useSelector((state) => state.shopCart);
   const { user } = useSelector((state) => state.auth);
-
   const [filters, setFilters] = useState({});
+  const [pendingFilters, setPendingFilters] = useState({}); // for mobile
   const [sort, setSort] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
@@ -65,10 +64,10 @@ function ShoppingListing() {
     setSort(value);
   }
 
+  // For desktop
   function handleFilter(getSectionId, getCurrentOption) {
     let cpyFilters = { ...filters };
     const indexOfCurrentSection = Object.keys(cpyFilters).indexOf(getSectionId);
-
     if (indexOfCurrentSection === -1) {
       cpyFilters = {
         ...cpyFilters,
@@ -77,14 +76,31 @@ function ShoppingListing() {
     } else {
       const indexOfCurrentOption =
         cpyFilters[getSectionId].indexOf(getCurrentOption);
-
       if (indexOfCurrentOption === -1)
         cpyFilters[getSectionId].push(getCurrentOption);
       else cpyFilters[getSectionId].splice(indexOfCurrentOption, 1);
     }
-
     setFilters(cpyFilters);
     sessionStorage.setItem("filters", JSON.stringify(cpyFilters));
+  }
+
+  // For mobile: update pendingFilters only
+  function handleMobileFilter(getSectionId, getCurrentOption) {
+    let cpyFilters = { ...pendingFilters };
+    const indexOfCurrentSection = Object.keys(cpyFilters).indexOf(getSectionId);
+    if (indexOfCurrentSection === -1) {
+      cpyFilters = {
+        ...cpyFilters,
+        [getSectionId]: [getCurrentOption],
+      };
+    } else {
+      const indexOfCurrentOption =
+        cpyFilters[getSectionId].indexOf(getCurrentOption);
+      if (indexOfCurrentOption === -1)
+        cpyFilters[getSectionId].push(getCurrentOption);
+      else cpyFilters[getSectionId].splice(indexOfCurrentOption, 1);
+    }
+    setPendingFilters(cpyFilters);
   }
 
   function handleGetProductDetails(getCurrentProductId) {
@@ -143,9 +159,12 @@ function ShoppingListing() {
     // If no filters in URL, fallback to sessionStorage
     if (Object.keys(urlFilters).length > 0) {
       setFilters(urlFilters);
+      setPendingFilters(urlFilters); // sync mobile state
       sessionStorage.setItem("filters", JSON.stringify(urlFilters));
     } else {
-      setFilters(JSON.parse(sessionStorage.getItem("filters")) || {});
+      const stored = JSON.parse(sessionStorage.getItem("filters")) || {};
+      setFilters(stored);
+      setPendingFilters(stored);
     }
   }, [searchParams]);
 
@@ -191,7 +210,23 @@ function ShoppingListing() {
                 Close
               </Button>
             </div>
-            <ProductFilter filters={filters} handleFilter={handleFilter} />
+            <ProductFilter
+              filters={pendingFilters}
+              handleFilter={handleMobileFilter}
+            />
+            <Button
+              className="w-full mt-4"
+              onClick={() => {
+                setFilters(pendingFilters);
+                sessionStorage.setItem(
+                  "filters",
+                  JSON.stringify(pendingFilters)
+                );
+                setShowFilters(false);
+              }}
+            >
+              Apply Filters
+            </Button>
           </div>
         </div>
       )}
