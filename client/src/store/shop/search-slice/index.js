@@ -1,6 +1,18 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const BACKEND_URL = import.meta.env.VITE_APP_BACKEND_URL;
+
+if (!BACKEND_URL && import.meta.env.DEV) {
+  console.warn(
+    "VITE_APP_BACKEND_URL is not defined! API calls might fall back to localhost for development."
+  );
+} else if (!BACKEND_URL && import.meta.env.PROD) {
+  console.error(
+    "VITE_APP_BACKEND_URL is not defined in production! Search functionality may fail."
+  );
+}
+
 const initialState = {
   isLoading: false,
   searchResults: [],
@@ -10,7 +22,7 @@ export const getSearchResults = createAsyncThunk(
   "/order/getSearchResults",
   async (keyword) => {
     const response = await axios.get(
-      `http://localhost:5000/api/shop/search/${keyword}`
+      `${BACKEND_URL}/api/shop/search/${keyword}`
     );
 
     return response.data;
