@@ -1,12 +1,22 @@
-# Modern E-commerce Application
+<p align="center">
+  <img src="client/public/vite.svg" alt="Logo" width="120" />
+</p>
 
-Live Website: [https://sunglasses-ecommerce-app.vercel.app/](https://sunglasses-ecommerce-app.vercel.app/)
+<h1 align="center">🕶️ Sunglasses Ecommerce App</h1>
 
-A full-stack e-commerce application built with React and Node.js, featuring both shopping and admin interfaces.
+<p align="center">
+  <a href="https://sunglasses-ecommerce-app.vercel.app/" target="_blank"><b>🌐 Live Website</b></a>
+</p>
+
+<blockquote align="center">
+  A full-stack e-commerce application built with <b>React</b> and <b>Node.js</b>, featuring both shopping and admin interfaces.
+</blockquote>
+
+---
 
 ## 🚀 Features
 
-### Shopping Interface
+### 🛒 Shopping Interface
 
 - User authentication (Login/Register)
 - Product browsing with filters
@@ -17,7 +27,7 @@ A full-stack e-commerce application built with React and Node.js, featuring both
 - PayPal payment integration
 - Responsive design
 
-### Admin Interface
+### 🛠️ Admin Interface
 
 - Dashboard with analytics
 - Product management (CRUD operations)
@@ -26,9 +36,12 @@ A full-stack e-commerce application built with React and Node.js, featuring both
 - Sales tracking
 - User management
 
+---
+
 ## 🛠 Tech Stack
 
-### Frontend
+<details>
+<summary><b>Frontend</b></summary>
 
 - React 18
 - Redux Toolkit for state management
@@ -36,8 +49,10 @@ A full-stack e-commerce application built with React and Node.js, featuring both
 - Radix UI components
 - Tailwind CSS for styling
 - Axios for API requests
+</details>
 
-### Backend
+<details>
+<summary><b>Backend</b></summary>
 
 - Node.js
 - Express.js
@@ -46,26 +61,31 @@ A full-stack e-commerce application built with React and Node.js, featuring both
 - PayPal SDK for payments
 - Cloudinary for image management
 - Multer for file uploads
+</details>
+
+---
 
 ## 📦 Project Structure
 
-```
-├── client/                 # Frontend React application
+```text
+├── client/        # Frontend React application
 │   ├── src/
-│   │   ├── components/    # Reusable components
+│   │   ├── components/   # Reusable components
 │   │   ├── pages/        # Page components
 │   │   ├── store/        # Redux store setup
 │   │   ├── hooks/        # Custom hooks
 │   │   └── config/       # Configuration files
 │
-└── server/                # Backend Node.js application
-    ├── controllers/      # Request handlers
-    ├── models/          # Database models
-    ├── routes/          # API routes
-    └── helpers/         # Utility functions
+└── server/       # Backend Node.js application
+    ├── controllers/  # Request handlers
+    ├── models/       # Database models
+    ├── routes/       # API routes
+    └── helpers/      # Utility functions
 ```
 
-## 🚀 Getting Started
+---
+
+## � Getting Started
 
 ### Prerequisites
 
@@ -76,64 +96,52 @@ A full-stack e-commerce application built with React and Node.js, featuring both
 
 ### Installation
 
-1. Clone the repository
-   \`\`\`bash
-   git clone [repository-url]
-   \`\`\`
+```bash
+# Clone the repository
+git clone [repository-url]
 
-2. Install Frontend Dependencies
-   \`\`\`bash
-   cd client
-   npm install
-   \`\`\`
+# Install Frontend Dependencies
+cd client
+npm install
 
-3. Install Backend Dependencies
-   \`\`\`bash
-   cd server
-   npm install
-   \`\`\`
+# Install Backend Dependencies
+cd ../server
+npm install
 
-4. Set up environment variables
-   Create a .env file in the server directory with:
-   \`\`\`
-   MONGODB_URI=your_mongodb_uri
-   JWT_SECRET=your_jwt_secret
-   PAYPAL_CLIENT_ID=your_paypal_client_id
-   PAYPAL_CLIENT_SECRET=your_paypal_client_secret
-   CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
-   CLOUDINARY_API_KEY=your_cloudinary_api_key
-   CLOUDINARY_API_SECRET=your_cloudinary_api_secret
-   \`\`\`
 
-5. Run the application
-   Frontend:
-   \`\`\`bash
-   cd client
-   npm run dev
-   \`\`\`
 
-Backend:
-\`\`\`bash
-cd server
+# Run the application
+# Frontend:
+cd ../client
 npm run dev
-\`\`\`
+
+# Backend:
+cd ../server
+npm run dev
+```
+
+---
 
 ## 🔒 Authentication
 
-The application uses JWT-based authentication with protected routes for both admin and regular users. The authentication flow includes:
+The application uses <b>JWT-based authentication</b> with protected routes for both admin and regular users. The authentication flow includes:
 
 - User registration
 - User login
 - Role-based access control
 - Protected routes
 
+---
+
 ## 💅 UI Components
 
 Built with a combination of:
 
-- Radix UI for accessible components
-- Tailwind CSS for styling
-- Custom UI components in the components/ui directory
+- <b>Radix UI</b> for accessible components
+- <b>Tailwind CSS</b> for styling
+- Custom UI components in the <code>components/ui</code> directory
+
+---
 
 ## 📱 Responsive Design
 
@@ -143,14 +151,18 @@ The application is fully responsive and works on:
 - Tablets
 - Mobile devices
 
+---
+
 ## 🔄 State Management
 
-Uses Redux Toolkit for:
+Uses <b>Redux Toolkit</b> for:
 
 - User authentication state
 - Shopping cart state
 - Product management
 - Order tracking
+
+---
 
 ## 🌟 Key Features Implementation
 
@@ -174,10 +186,14 @@ Uses Redux Toolkit for:
 - Product inventory
 - User management
 
+---
+
 ## 🤝 Contributing
 
 Contributions, issues, and feature requests are welcome!
 
+---
+
 ## 📝 License
 
-This project is [MIT](https://choosealicense.com/licenses/mit/) licensed.
+This project is MIT licensed.
